@@ -1,18 +1,18 @@
-// import { TProduct } from "./product.interface";
-// import { Product } from "./product.model";
+import { TProduct } from "./product.interface";
+import { Product } from "./product.model";
 
-// const createProductInToDb = async (payload: TProduct) => {
-//   const result = await Product.create(payload);
+const createProductInToDb = async (payload: TProduct) => {
+  const result = await Product.create(payload);
 
-//   return result;
-// };
-// const getProductfromDb = async () => {
-//   const result = await Product.find();
+  return result;
+};
+const getProductfromDb = async () => {
+  const result = await Product.find();
 
-//   return result;
-// };
+  return result;
+};
 
-// export const productServices = {
-//   createProductInToDb,
-//   getProductfromDb
-// };
+export const productServices = {
+  createProductInToDb,
+  getProductfromDb
+};

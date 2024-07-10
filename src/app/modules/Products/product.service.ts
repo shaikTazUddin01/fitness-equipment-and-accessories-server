@@ -11,8 +11,15 @@ const getProductfromDb = async () => {
 
   return result;
 };
+const getProductById = async (id: string ) => {
+  // console.log(id);
+  const result = await Product.findById(id);
+
+  return result;
+};
 
 export const productServices = {
   createProductInToDb,
-  getProductfromDb
+  getProductfromDb,
+  getProductById,
 };

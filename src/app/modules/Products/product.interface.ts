@@ -2,6 +2,7 @@ export type TProduct = {
   name: string;
   images: string;
   price: number;
-  productDetail: string;
-  rating: number;
+  detail: string;
+  category:string;
+  stockQuentity?:number;
 };

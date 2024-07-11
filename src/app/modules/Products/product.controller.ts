@@ -18,7 +18,7 @@ const getProducts = async (req: Request, res: Response) => {
   });
 };
 const getProductById = async (req: Request, res: Response) => {
-  const id= req.params.id
+  const id = req.params.id;
   // console.log(id);
   const result = await productServices.getProductById(id);
 
@@ -29,9 +29,21 @@ const getProductById = async (req: Request, res: Response) => {
 };
 //Delete Product
 const deleteProductById = async (req: Request, res: Response) => {
-  const id= req.params.id
+  const id = req.params.id;
   // console.log(id);
   const result = await productServices.deleteProductfromDb(id);
+
+  res.status(200).json({
+    success: true,
+    data: result,
+  });
+};
+//UPdate Product
+const updateProductById = async (req: Request, res: Response) => {
+  const {id} = req.params;
+  const  detail  = req.body;
+  // console.log(id,detail);
+  const result = await productServices.updateProductfromDb(id, detail);
 
   res.status(200).json({
     success: true,
@@ -43,5 +55,6 @@ export const productController = {
   createProduct,
   getProducts,
   getProductById,
-  deleteProductById
+  deleteProductById,
+  updateProductById,
 };

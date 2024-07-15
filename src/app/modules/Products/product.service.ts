@@ -31,9 +31,10 @@ const createProductInToDb = async (payload: TProduct) => {
     return result;
   }
 };
-const getProductfromDb = async (query) => {
+const getProductfromDb = async (query: any) => {
   let sortedProduct = "-createdAt";
-  if (query) {
+
+  if (query?.sortProductByPrice) {
     const sortByPrice = query?.sortProductByPrice;
     if (sortByPrice == "dsc") {
       sortedProduct = "-price";
@@ -42,7 +43,14 @@ const getProductfromDb = async (query) => {
       sortedProduct = "price";
     }
   }
-  const result = await Product.find().sort(sortedProduct);
+
+  const searchProduct: { [key: string]: any } = {};
+  if (query && query.searchProduct) {
+    searchProduct.name = { $regex: query.searchProduct, $options: "i" };
+  }
+
+  // console.log(query);
+  const result = await Product.find(searchProduct).sort(sortedProduct);
 
   return result;
 };

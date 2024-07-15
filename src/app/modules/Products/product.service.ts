@@ -31,8 +31,18 @@ const createProductInToDb = async (payload: TProduct) => {
     return result;
   }
 };
-const getProductfromDb = async () => {
-  const result = await Product.find();
+const getProductfromDb = async (query) => {
+  let sortedProduct = "-createdAt";
+  if (query) {
+    const sortByPrice = query?.sortProductByPrice;
+    if (sortByPrice == "dsc") {
+      sortedProduct = "-price";
+    }
+    if (sortByPrice == "asc") {
+      sortedProduct = "price";
+    }
+  }
+  const result = await Product.find().sort(sortedProduct);
 
   return result;
 };
@@ -54,12 +64,7 @@ const updateProductfromDb = async (
   id: string,
   data: Record<string, string>
 ) => {
-
-  const result = await Product.findByIdAndUpdate(
-    id,
-    data,
-    { new: true }
-  );
+  const result = await Product.findByIdAndUpdate(id, data, { new: true });
 
   return result;
 };

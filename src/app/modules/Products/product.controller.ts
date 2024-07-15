@@ -10,7 +10,8 @@ const createProduct = async (req: Request, res: Response) => {
   });
 };
 const getProducts = async (req: Request, res: Response) => {
-  const result = await productServices.getProductfromDb();
+  const query = req?.query;
+  const result = await productServices.getProductfromDb(query);
 
   res.status(200).json({
     success: true,
@@ -40,8 +41,8 @@ const deleteProductById = async (req: Request, res: Response) => {
 };
 //UPdate Product
 const updateProductById = async (req: Request, res: Response) => {
-  const {id} = req.params;
-  const  detail  = req.body;
+  const { id } = req.params;
+  const detail = req.body;
   // console.log(id,detail);
   const result = await productServices.updateProductfromDb(id, detail);
 

@@ -9,6 +9,6 @@ const productSchems = new Schema<TProduct>({
   category:{ type: String, required: true },
   stockQuentity:{ type: Number},
 
-});
+}, { timestamps: true });
 
 export const Product = model("product", productSchems);

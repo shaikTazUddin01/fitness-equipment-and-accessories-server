@@ -4,6 +4,7 @@ import { TCategory } from "./category.interfacr";
 
 const categorySchema = new Schema<TCategory>({
   name: { type: String, required: true },
+  image:{ type: String, required: true },
  
 
 });

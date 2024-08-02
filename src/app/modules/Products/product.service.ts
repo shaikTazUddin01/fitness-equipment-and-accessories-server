@@ -31,9 +31,16 @@ const createProductInToDb = async (payload: TProduct) => {
     return result;
   }
 };
+//get product
 const getProductfromDb = async (query: any) => {
   let sortedProduct = "-createdAt";
 
+  // eslint-disable-next-line prefer-const
+  let selectedCategory: string[] = [];
+
+  if (query?.selectedCategory ) {
+    selectedCategory=query?.selectedCategory.split(',').map((category:string)=>category.trim())
+  }
   if (query?.sortProductByPrice) {
     const sortByPrice = query?.sortProductByPrice;
     if (sortByPrice == "dsc") {
@@ -47,6 +54,11 @@ const getProductfromDb = async (query: any) => {
   const searchProduct: { [key: string]: any } = {};
   if (query && query.searchProduct) {
     searchProduct.name = { $regex: query.searchProduct, $options: "i" };
+  }
+//caltegory filter
+  if (selectedCategory.length>0) {
+   
+    searchProduct.category = {$in:selectedCategory}
   }
 
   // console.log(query);

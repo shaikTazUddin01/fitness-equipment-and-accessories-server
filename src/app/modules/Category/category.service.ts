@@ -17,9 +17,24 @@ const getCategoryById = async (id: string) => {
 
   return result;
 };
+const deleteCategoryFromDB = async (id: string) => {
+  // console.log(id);
+  const result = await Category.findByIdAndDelete(id);
+
+  return result;
+};
+const updateCategoryInToDb = async (id: string,data:TCategory) => {
+
+
+  const result = await Category.findByIdAndUpdate(id,data);
+
+  return result;
+};
 
 export const CategoryServices = {
   createCategoryInToDb,
   getCategoryfromDb,
   getCategoryById,
+  deleteCategoryFromDB,
+  updateCategoryInToDb
 };

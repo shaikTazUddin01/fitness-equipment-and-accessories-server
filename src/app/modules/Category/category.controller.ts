@@ -28,11 +28,32 @@ const getCategoryById = async (req: Request, res: Response) => {
     data: result,
   });
 };
+const deleteCategory = async (req: Request, res: Response) => {
+  const id = req.params.id;
+  // console.log(id);
+  const result = await CategoryServices.deleteCategoryFromDB(id);
 
+  res.status(200).json({
+    success: true,
+    data: result,
+  });
+};
+
+const updateCategory = async (req: Request, res: Response) => {
+  const {id}=req.params
+  const result = await CategoryServices.updateCategoryInToDb(id,req.body);
+
+  res.status(200).json({
+    success: true,
+    data: result,
+  });
+};
 
 export const CategoryController = {
   createCategory,
   getCategorys,
   getCategoryById,
+  deleteCategory,
+  updateCategory
  
 };

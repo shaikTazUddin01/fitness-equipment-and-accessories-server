@@ -3,11 +3,8 @@ import { AdminModel } from "./admin.model";
 
 const createAdminInToDB = async (data: TAdmin) => {
   data.role = "admin";
-
   // console.log(data);
-
   const res = await AdminModel.create(data);
-
   return res;
 };
 const getAdminFromDB = async () => {
@@ -17,7 +14,7 @@ const getAdminFromDB = async () => {
 };
 
 const getSingleAdminFromDB = async (id: string) => {
-  console.log(id);
+  // console.log(id);
   const res = await AdminModel.findById(id);
   return res;
 };

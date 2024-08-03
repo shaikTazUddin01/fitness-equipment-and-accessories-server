@@ -1,24 +1,25 @@
 import { Request, Response } from "express";
 import { CategoryServices } from "./category.service";
+import catchAsync from "../../utils/catchAsync";
 
 
-const createCategory = async (req: Request, res: Response) => {
+const createCategory = catchAsync(async (req: Request, res: Response) => {
   const result = await CategoryServices.createCategoryInToDb(req.body);
 
   res.status(200).json({
     success: true,
     data: result,
   });
-};
-const getCategorys = async (req: Request, res: Response) => {
+});
+const getCategorys =catchAsync( async (req: Request, res: Response) => {
   const result = await CategoryServices.getCategoryfromDb();
 
   res.status(200).json({
     success: true,
     data: result,
   });
-};
-const getCategoryById = async (req: Request, res: Response) => {
+});
+const getCategoryById = catchAsync(async (req: Request, res: Response) => {
   const id = req.params.id;
   // console.log(id);
   const result = await CategoryServices.getCategoryById(id);
@@ -27,8 +28,8 @@ const getCategoryById = async (req: Request, res: Response) => {
     success: true,
     data: result,
   });
-};
-const deleteCategory = async (req: Request, res: Response) => {
+});
+const deleteCategory = catchAsync(async (req: Request, res: Response) => {
   const id = req.params.id;
   // console.log(id);
   const result = await CategoryServices.deleteCategoryFromDB(id);
@@ -37,9 +38,9 @@ const deleteCategory = async (req: Request, res: Response) => {
     success: true,
     data: result,
   });
-};
+});
 
-const updateCategory = async (req: Request, res: Response) => {
+const updateCategory = catchAsync(async (req: Request, res: Response) => {
   const {id}=req.params
   const result = await CategoryServices.updateCategoryInToDb(id,req.body);
 
@@ -47,7 +48,7 @@ const updateCategory = async (req: Request, res: Response) => {
     success: true,
     data: result,
   });
-};
+});
 
 export const CategoryController = {
   createCategory,

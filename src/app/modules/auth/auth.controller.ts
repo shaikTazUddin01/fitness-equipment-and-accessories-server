@@ -1,18 +1,15 @@
-import { NextFunction, Request, Response } from "express";
+import { Request, Response } from "express";
 import { authServices } from "./auth.service";
+import catchAsync from "../../utils/catchAsync";
 
-const login = async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const result = await authServices.login(req.body);
+const login = catchAsync(async (req: Request, res: Response) => {
+  const result = await authServices.login(req.body);
 
-    res.status(200).json({
-      success: true,
-      data: result,
-    });
-  } catch (error) {
-    next(error);
-  }
-};
+  res.status(200).json({
+    success: true,
+    data: result,
+  });
+});
 
 export const authController = {
   login,

@@ -4,6 +4,7 @@ import { TAuth } from "./auth.interface";
 import bcrypt from "bcrypt";
 import config from "../../config";
 import { createToken } from "./auth.utilis";
+import jwt, { JwtPayload } from "jsonwebtoken";
 // import { AuthModel } from "./auth.model";
 
 const login = async (data: TAuth) => {
@@ -24,60 +25,65 @@ const login = async (data: TAuth) => {
     user: isUserExists?.email,
     role: isUserExists?.role,
   };
-// access token
+  // access token
   const access_Token = createToken(
     jwtPayload,
     config.jwt_access_secret as string,
     config.jwt_access_expressIn as string
   );
-//  refresh token
+  //  refresh token
   const refresh_Token = createToken(
     jwtPayload,
     config.jwt_refresh_secret as string,
     config.jwt_refresh_expressIn as string
   );
- 
+
   return {
     accessToken: access_Token,
     refreshToken: refresh_Token,
   };
 };
-// const refreshToken = async (data: TAuth) => {
-//   const isUserExists = await AdminModel.findOne({ email: data?.email });
+const refreshToken = async (token: string) => {
+  if (!token) {
+    throw new Error("yor are not authorization");
+  }
 
-//   if (!isUserExists) {
-//     throw new Error("you are not authorized");
-//   }
-//   const plainPassword = data.password;
-//   const hashedPassword = isUserExists.password;
+  //verify token
+  const decoded = jwt.verify(
+    token,
+    config.jwt_refresh_secret as string
+  ) as JwtPayload;
 
-//   const isPasswordmatched = await bcrypt.compare(plainPassword, hashedPassword);
+  const user = (decoded as JwtPayload)?.user;
+  // const role = (decoded as JwtPayload)?.role;
+  //check user exists or not
+  const isUserExists = await AdminModel.findOne({ email: user });
+  if (!isUserExists) {
+    throw new Error("you are not authorization");
+  }
+  //check status and isDeleted is ok or not
+  if (isUserExists.status !== "active" || isUserExists.isDeleted == true) {
+    throw new Error("you are not authorization");
+  }
 
-//   if (!isPasswordmatched) {
-//     throw new Error("something is wrong please try with right information");
-//   }
-//   const jwtPayload = {
-//     user: isUserExists?.email,
-//     role: isUserExists?.role,
-//     status: isUserExists?.status,
-//     isDeleted: isUserExists?.isDeleted,
-//   };
+  const jwtPayload = {
+    user: isUserExists?.email,
+    role: isUserExists?.role,
+  };
 
-//   const refresh_Token = jwt.sign(
-//     jwtPayload,
-//     config.jwt_refresh_secret as string,
-//     {
-//       expiresIn: config.jwt_refresh_expressIn,
-//     }
-//   );
+const accessToken = createToken(
+    jwtPayload,
+    config.jwt_access_secret as string,
+    config.jwt_access_expressIn as string
+  );
 
-//   return {
-//     refreshToken: refresh_Token,
 
-//   };
-// };
+  return {
+    accessToken
+  };
+};
 
 export const authServices = {
   login,
-  // refreshToken
+  refreshToken,
 };

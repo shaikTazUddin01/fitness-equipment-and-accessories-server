@@ -6,7 +6,15 @@ import { notfound } from "./app/middlewares/notfound";
 
 const app = express();
 app.use(express.json());
-app.use(cors());
+app.use(
+  cors({
+    origin: [
+      "http://localhost:5173",
+      "https://thunder-fitnesscare.netlify.app",
+    ],
+    credentials: true,
+  })
+);
 app.get("/", (req, res) => {
   res.send("Server is connecting");
 });

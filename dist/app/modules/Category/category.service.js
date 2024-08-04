@@ -30,8 +30,7 @@ const deleteCategoryFromDB = (id) => __awaiter(void 0, void 0, void 0, function*
     return result;
 });
 const updateCategoryInToDb = (id, data) => __awaiter(void 0, void 0, void 0, function* () {
-    // console.log(id);
-    const result = yield category_model_1.Category.findByIdAndUpdate(id, { data });
+    const result = yield category_model_1.Category.findByIdAndUpdate(id, data);
     return result;
 });
 exports.CategoryServices = {

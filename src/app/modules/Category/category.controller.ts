@@ -12,6 +12,7 @@ const createCategory = catchAsync(async (req: Request, res: Response) => {
   });
 });
 const getCategorys =catchAsync( async (req: Request, res: Response) => {
+
   const result = await CategoryServices.getCategoryfromDb();
 
   res.status(200).json({

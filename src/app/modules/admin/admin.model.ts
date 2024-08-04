@@ -6,7 +6,7 @@ const AdminSchema = new Schema({
   name: { type: String, required: true },
   email: { type: String, required: true },
   password: { type: String, required: true },
-  role: { type: String, required: true },
+  role: { type: String,enum:['admin','subadmin'], required: true },
 });
 //per hook middle ware
 AdminSchema.pre('save',async function(next){

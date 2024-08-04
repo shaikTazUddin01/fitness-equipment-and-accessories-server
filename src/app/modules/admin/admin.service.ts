@@ -2,8 +2,9 @@ import { TAdmin } from "./admin.interface";
 import { AdminModel } from "./admin.model";
 
 const createAdminInToDB = async (data: TAdmin) => {
-  data.role = "admin";
-  // console.log(data);
+  data.status = "active";
+  data.isDeleted = false;
+ 
   const res = await AdminModel.create(data);
   return res;
 };

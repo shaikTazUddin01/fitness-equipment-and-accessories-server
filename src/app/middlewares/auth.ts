@@ -7,6 +7,7 @@ import { TAdminRole } from "../modules/admin/admin.interface";
 const auth = (...requiredRoles: TAdminRole[]) => {
   return catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     const token = req.headers.authorization;
+ 
 
     if (!token) {
       throw new Error("yor are not authorization");
@@ -21,6 +22,17 @@ const auth = (...requiredRoles: TAdminRole[]) => {
         }
 
         const role = (decoded as JwtPayload)?.role;
+        const status = (decoded as JwtPayload)?.status;
+        const isDeleted = (decoded as JwtPayload)?.isDeleted;
+
+        console.log(status);
+
+        if (status !== 'active' || isDeleted == true) {
+          throw new Error("you are not authorization");
+            
+        }
+       
+
         if (requiredRoles && !requiredRoles.includes(role)) {
           throw new Error("you are not authorization");
         }

@@ -12,8 +12,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.adminService = void 0;
 const admin_model_1 = require("./admin.model");
 const createAdminInToDB = (data) => __awaiter(void 0, void 0, void 0, function* () {
-    data.role = "admin";
-    // console.log(data);
+    data.status = "active";
+    data.isDeleted = false;
     const res = yield admin_model_1.AdminModel.create(data);
     return res;
 });

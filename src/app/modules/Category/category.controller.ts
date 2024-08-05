@@ -13,7 +13,7 @@ const createCategory = catchAsync(async (req: Request, res: Response) => {
 });
 const getCategorys =catchAsync( async (req: Request, res: Response) => {
 // console.log("user",req.user);
-console.log(req.cookies);
+// console.log(req.cookies);
 
   const result = await CategoryServices.getCategoryfromDb();
 

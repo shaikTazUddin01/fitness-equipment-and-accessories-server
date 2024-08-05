@@ -23,6 +23,8 @@ const createCategory = (0, catchAsync_1.default)((req, res) => __awaiter(void 0,
     });
 }));
 const getCategorys = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    // console.log("user",req.user);
+    // console.log(req.cookies);
     const result = yield category_service_1.CategoryServices.getCategoryfromDb();
     res.status(200).json({
         success: true,

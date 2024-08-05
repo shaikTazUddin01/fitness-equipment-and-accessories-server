@@ -18,12 +18,14 @@ const bcrypt_1 = __importDefault(require("bcrypt"));
 const config_1 = __importDefault(require("../../config"));
 const AdminSchema = new mongoose_1.Schema({
     name: { type: String, required: true },
-    email: { type: String, required: true },
+    email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
-    role: { type: String, required: true },
+    role: { type: String, enum: ["admin", "subAdmin"], required: true },
+    status: { type: String, enum: ["active", "block"], required: true },
+    isDeleted: { type: Boolean, required: true },
 });
 //per hook middle ware
-AdminSchema.pre('save', function (next) {
+AdminSchema.pre("save", function (next) {
     return __awaiter(this, void 0, void 0, function* () {
         // eslint-disable-next-line @typescript-eslint/no-this-alias
         const user = this;
@@ -32,10 +34,10 @@ AdminSchema.pre('save', function (next) {
     });
 });
 //post hook middle ware
-AdminSchema.set('toJSON', {
+AdminSchema.set("toJSON", {
     transform: function (doc, ret) {
         delete ret.password;
         return ret;
-    }
+    },
 });
 exports.AdminModel = (0, mongoose_1.model)("Admin", AdminSchema);

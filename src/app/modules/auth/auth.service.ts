@@ -5,13 +5,15 @@ import bcrypt from "bcrypt";
 import config from "../../config";
 import { createToken } from "./auth.utilis";
 import jwt, { JwtPayload } from "jsonwebtoken";
+import { AppError } from "../../errors/AppErrors";
+import httpStatus from "http-status";
 // import { AuthModel } from "./auth.model";
 
 const login = async (data: TAuth) => {
   const isUserExists = await AdminModel.findOne({ email: data?.email });
 
   if (!isUserExists) {
-    throw new Error("you are not authorized");
+    throw new AppError(httpStatus.UNAUTHORIZED,"you are not authorized");
   }
   const plainPassword = data.password;
   const hashedPassword = isUserExists.password;
@@ -19,7 +21,7 @@ const login = async (data: TAuth) => {
   const isPasswordmatched = await bcrypt.compare(plainPassword, hashedPassword);
 
   if (!isPasswordmatched) {
-    throw new Error("something is wrong please try with right information");
+    throw new AppError(httpStatus.FORBIDDEN,"something is wrong please try with right information");
   }
   const jwtPayload = {
     user: isUserExists?.email,
@@ -45,7 +47,7 @@ const login = async (data: TAuth) => {
 };
 const refreshToken = async (token: string) => {
   if (!token) {
-    throw new Error("yor are not authorization");
+    throw new AppError(httpStatus.UNAUTHORIZED,"yor are not authorization");
   }
 
   //verify token
@@ -59,11 +61,11 @@ const refreshToken = async (token: string) => {
   //check user exists or not
   const isUserExists = await AdminModel.findOne({ email: user });
   if (!isUserExists) {
-    throw new Error("you are not authorization");
+    throw new AppError(httpStatus.UNAUTHORIZED,"you are not authorization");
   }
   //check status and isDeleted is ok or not
   if (isUserExists.status !== "active" || isUserExists.isDeleted == true) {
-    throw new Error("you are not authorization");
+    throw new AppError(httpStatus.UNAUTHORIZED,"you are not authorization");
   }
 
   const jwtPayload = {

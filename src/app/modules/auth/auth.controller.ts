@@ -19,11 +19,11 @@ const login = catchAsync(async (req: Request, res: Response) => {
 const refreshToken = catchAsync(async (req: Request, res: Response) => {
   const { refreshToken } = req.cookies;
   const result = await authServices.refreshToken(refreshToken);
-  const {accessToken}=result
+  const { accessToken } = result;
 
   res.status(200).json({
     success: true,
-    data: {accessToken},
+    data: { accessToken },
   });
 });
 

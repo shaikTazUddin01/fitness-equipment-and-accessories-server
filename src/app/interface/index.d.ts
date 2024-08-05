@@ -7,3 +7,5 @@ declare global{
         }
     }
 }
+
+// Error extends AppError

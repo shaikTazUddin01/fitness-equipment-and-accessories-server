@@ -4,5 +4,5 @@ export type TProduct = {
   price: number;
   detail: string;
   category:string;
-  stockQuentity?:number;
+  stockQuentity?:number ;
 };

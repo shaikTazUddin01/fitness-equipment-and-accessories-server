@@ -6,12 +6,12 @@ const UserSchema = new Schema({
   name: { type: String, required: true },
   email: { type: String, required: true,unique:true },
   password: { type: String, required: true },
-  role: { type: String, enum: ["admin", "subAdmin"], required: true },
+  role: { type: String, enum: ["user"], required: true },
  
   isDeleted: { type: Boolean, required: true },
-  address: { type: Boolean, required: true },
+  address: { type: String, required: true },
   age: { type: Number, required: true },
-  phoneNumber: { type: Number, required: true },
+  phoneNumber: { type: String, required: true },
   gender: { type: String,enum:["Male","Female","Other"], required: true },
 });
 //per hook middle ware

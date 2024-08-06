@@ -7,6 +7,7 @@ import { createToken } from "./auth.utilis";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import { AppError } from "../../errors/AppErrors";
 import httpStatus from "http-status";
+import { UserModel } from "../user/user.model";
 // import { AuthModel } from "./auth.model";
 
 //admin login
@@ -48,8 +49,9 @@ const AdminLogin = async (data: TAuth) => {
 };
 //user Login
 const UserLogin = async (data: TAuth) => {
-  const isUserExists = await AdminModel.findOne({ email: data?.email });
+  const isUserExists = await UserModel.findOne({ email: data?.email });
 
+  console.log(isUserExists);
   if (!isUserExists) {
     throw new AppError(httpStatus.UNAUTHORIZED,"you are not authorized");
   }

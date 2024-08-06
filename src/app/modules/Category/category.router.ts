@@ -10,16 +10,8 @@ router.post(
   auth(ADMIN_ROLE.admin, ADMIN_ROLE.subAdmin),
   CategoryController.createCategory
 );
-router.get(
-  "/",
-  auth(ADMIN_ROLE.admin, ADMIN_ROLE.subAdmin),
-  CategoryController.getCategorys
-);
-router.get(
-  "/:id",
-  auth(ADMIN_ROLE.admin, ADMIN_ROLE.subAdmin),
-  CategoryController.getCategoryById
-);
+router.get("/", CategoryController.getCategorys);
+router.get("/:id", CategoryController.getCategoryById);
 router.delete(
   "/:id",
   auth(ADMIN_ROLE.admin, ADMIN_ROLE.subAdmin),

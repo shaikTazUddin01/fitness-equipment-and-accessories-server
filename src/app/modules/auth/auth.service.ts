@@ -9,7 +9,45 @@ import { AppError } from "../../errors/AppErrors";
 import httpStatus from "http-status";
 // import { AuthModel } from "./auth.model";
 
-const login = async (data: TAuth) => {
+//admin login
+const AdminLogin = async (data: TAuth) => {
+  const isUserExists = await AdminModel.findOne({ email: data?.email });
+
+  if (!isUserExists) {
+    throw new AppError(httpStatus.UNAUTHORIZED,"you are not authorized");
+  }
+  const plainPassword = data.password;
+  const hashedPassword = isUserExists.password;
+
+  const isPasswordmatched = await bcrypt.compare(plainPassword, hashedPassword);
+
+  if (!isPasswordmatched) {
+    throw new AppError(httpStatus.FORBIDDEN,"something is wrong please try with right information");
+  }
+  const jwtPayload = {
+    user: isUserExists?.email,
+    role: isUserExists?.role,
+  };
+  // access token
+  const access_Token = createToken(
+    jwtPayload,
+    config.jwt_access_secret as string,
+    config.jwt_access_expressIn as string
+  );
+  //  refresh token
+  const refresh_Token = createToken(
+    jwtPayload,
+    config.jwt_refresh_secret as string,
+    config.jwt_refresh_expressIn as string
+  );
+
+  return {
+    accessToken: access_Token,
+    refreshToken: refresh_Token,
+  };
+};
+//user Login
+const UserLogin = async (data: TAuth) => {
   const isUserExists = await AdminModel.findOne({ email: data?.email });
 
   if (!isUserExists) {
@@ -86,6 +124,7 @@ const accessToken = createToken(
 };
 
 export const authServices = {
-  login,
+  AdminLogin,
+  UserLogin,
   refreshToken,
 };

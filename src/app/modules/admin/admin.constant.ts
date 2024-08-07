@@ -1,6 +1,6 @@
 export const ADMIN_ROLE = {
-  admin: "admin",
-  subAdmin :"subAdmin",
+  Admin: "Admin",
+  SubAdmin :"SubAdmin",
 } as const;
 
 

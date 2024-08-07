@@ -21,9 +21,37 @@ const auth_utilis_1 = require("./auth.utilis");
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const AppErrors_1 = require("../../errors/AppErrors");
 const http_status_1 = __importDefault(require("http-status"));
+const user_model_1 = require("../user/user.model");
 // import { AuthModel } from "./auth.model";
-const login = (data) => __awaiter(void 0, void 0, void 0, function* () {
+//admin login
+const AdminLogin = (data) => __awaiter(void 0, void 0, void 0, function* () {
     const isUserExists = yield admin_model_1.AdminModel.findOne({ email: data === null || data === void 0 ? void 0 : data.email });
+    if (!isUserExists) {
+        throw new AppErrors_1.AppError(http_status_1.default.UNAUTHORIZED, "you are not authorized");
+    }
+    const plainPassword = data.password;
+    const hashedPassword = isUserExists.password;
+    const isPasswordmatched = yield bcrypt_1.default.compare(plainPassword, hashedPassword);
+    if (!isPasswordmatched) {
+        throw new AppErrors_1.AppError(http_status_1.default.FORBIDDEN, "something is wrong please try with right information");
+    }
+    const jwtPayload = {
+        user: isUserExists === null || isUserExists === void 0 ? void 0 : isUserExists.email,
+        role: isUserExists === null || isUserExists === void 0 ? void 0 : isUserExists.role,
+    };
+    // access token
+    const access_Token = (0, auth_utilis_1.createToken)(jwtPayload, config_1.default.jwt_access_secret, config_1.default.jwt_access_expressIn);
+    //  refresh token
+    const refresh_Token = (0, auth_utilis_1.createToken)(jwtPayload, config_1.default.jwt_refresh_secret, config_1.default.jwt_refresh_expressIn);
+    return {
+        accessToken: access_Token,
+        refreshToken: refresh_Token,
+    };
+});
+//user Login
+const UserLogin = (data) => __awaiter(void 0, void 0, void 0, function* () {
+    const isUserExists = yield user_model_1.UserModel.findOne({ email: data === null || data === void 0 ? void 0 : data.email });
+    console.log(isUserExists);
     if (!isUserExists) {
         throw new AppErrors_1.AppError(http_status_1.default.UNAUTHORIZED, "you are not authorized");
     }
@@ -73,6 +101,7 @@ const refreshToken = (token) => __awaiter(void 0, void 0, void 0, function* () {
     };
 });
 exports.authServices = {
-    login,
+    AdminLogin,
+    UserLogin,
     refreshToken,
 };

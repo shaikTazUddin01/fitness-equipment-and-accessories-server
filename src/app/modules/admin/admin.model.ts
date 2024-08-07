@@ -5,8 +5,12 @@ import config from "../../config";
 const AdminSchema = new Schema({
   name: { type: String, required: true },
   email: { type: String, required: true,unique:true },
+  phoneNumber: { type: Number, required: true,unique:true },
   password: { type: String, required: true },
-  role: { type: String, enum: ["admin", "subAdmin"], required: true },
+  age: { type: String, required: true },
+  address: { type: String, required: true },
+  role: { type: String, enum: ["Admin", "SubAdmin"], required: true },
+  gender: { type: String, enum: ["Male", "Female","Other"], required: true },
   status: { type: String, enum: ["active", "block"], required: true },
   isDeleted: { type: Boolean, required: true },
 });

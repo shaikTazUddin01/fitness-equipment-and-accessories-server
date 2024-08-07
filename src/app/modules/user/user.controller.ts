@@ -39,6 +39,9 @@ const deleteSingleUser = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+
+
+
 export const UserController = {
   getUser,
   getSingleUser,

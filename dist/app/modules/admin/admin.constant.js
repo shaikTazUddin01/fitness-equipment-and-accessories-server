@@ -2,6 +2,6 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ADMIN_ROLE = void 0;
 exports.ADMIN_ROLE = {
-    admin: "admin",
-    subAdmin: "subAdmin",
+    Admin: "Admin",
+    SubAdmin: "SubAdmin",
 };

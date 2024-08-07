@@ -1,13 +1,16 @@
 import { ADMIN_ROLE } from "./admin.constant";
 
 export type TAdmin = {
-  role?: 'admin' | 'subadmin';
   name: string;
-  status:string;
-  isDeleted:boolean;
   email: string;
+  phoneNumber: string;
+  role?: "Admin" | "SubAdmin";
   password: string;
+  age: number;
+  address: string;
+  status: string;
+  isDeleted: boolean;
+  gender: "Male" | "Female" | "Other";
 };
 
-
-export type TAdminRole= keyof typeof ADMIN_ROLE;
+export type TAdminRole = keyof typeof ADMIN_ROLE;

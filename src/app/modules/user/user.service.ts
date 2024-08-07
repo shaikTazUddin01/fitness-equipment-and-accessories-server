@@ -38,6 +38,7 @@ const deleteSingleUserFromDB = async (id: string) => {
   return res;
 };
 
+
 export const UserService = {
   getUserFromDB,
   getSingleUserFromDB,

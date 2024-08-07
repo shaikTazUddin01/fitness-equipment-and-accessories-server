@@ -12,24 +12,23 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.AdminModel = void 0;
+exports.UserModel = void 0;
 const mongoose_1 = require("mongoose");
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const config_1 = __importDefault(require("../../config"));
-const AdminSchema = new mongoose_1.Schema({
+const UserSchema = new mongoose_1.Schema({
     name: { type: String, required: true },
     email: { type: String, required: true, unique: true },
-    phoneNumber: { type: Number, required: true, unique: true },
     password: { type: String, required: true },
-    age: { type: String, required: true },
-    address: { type: String, required: true },
-    role: { type: String, enum: ["Admin", "SubAdmin"], required: true },
-    gender: { type: String, enum: ["Male", "Female", "Other"], required: true },
-    status: { type: String, enum: ["active", "block"], required: true },
+    role: { type: String, enum: ["user"], required: true },
     isDeleted: { type: Boolean, required: true },
+    address: { type: String, required: true },
+    age: { type: Number, required: true },
+    phoneNumber: { type: String, required: true },
+    gender: { type: String, enum: ["Male", "Female", "Other"], required: true },
 });
 //per hook middle ware
-AdminSchema.pre("save", function (next) {
+UserSchema.pre("save", function (next) {
     return __awaiter(this, void 0, void 0, function* () {
         // eslint-disable-next-line @typescript-eslint/no-this-alias
         const user = this;
@@ -38,10 +37,10 @@ AdminSchema.pre("save", function (next) {
     });
 });
 //post hook middle ware
-AdminSchema.set("toJSON", {
+UserSchema.set("toJSON", {
     transform: function (doc, ret) {
         delete ret.password;
         return ret;
     },
 });
-exports.AdminModel = (0, mongoose_1.model)("Admin", AdminSchema);
+exports.UserModel = (0, mongoose_1.model)("User", UserSchema);

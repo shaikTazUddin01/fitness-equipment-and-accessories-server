@@ -22,7 +22,7 @@ const auth = (...requiredRoles: TAdminRole[]) => {
     } catch (error) {
       throw new AppError(httpStatus.UNAUTHORIZED,"you are not authorization");
     }
-
+console.log(decoded);
     if (!decoded) {
       throw new AppError(httpStatus.UNAUTHORIZED,"you are not authorization");
     }

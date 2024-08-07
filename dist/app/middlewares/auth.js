@@ -31,6 +31,7 @@ const auth = (...requiredRoles) => {
         catch (error) {
             throw new AppErrors_1.AppError(http_status_1.default.UNAUTHORIZED, "you are not authorization");
         }
+        console.log(decoded);
         if (!decoded) {
             throw new AppErrors_1.AppError(http_status_1.default.UNAUTHORIZED, "you are not authorization");
         }

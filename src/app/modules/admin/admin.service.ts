@@ -19,9 +19,20 @@ const getSingleAdminFromDB = async (id: string) => {
   const res = await AdminModel.findById(id);
   return res;
 };
+const deleteAdminFromDB = async (id: string) => {
+  // console.log(id);
+  const res = await AdminModel.findByIdAndDelete(id);
+  return res;
+};
+const updateAdminIntoDB = async (id: string,data:Partial<TAdmin>) => {
+  // console.log(id);
+  const res = await AdminModel.findByIdAndDelete(id,data);
+  return res;
+};
 
 export const adminService = {
   getAdminFromDB,
   getSingleAdminFromDB,
   createAdminInToDB,
+  updateAdminIntoDB,deleteAdminFromDB
 };

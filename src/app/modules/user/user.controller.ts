@@ -20,8 +20,9 @@ const getUser = catchAsync(async (req: Request, res: Response) => {
   });
 });
 const getSingleUser = catchAsync(async (req: Request, res: Response) => {
-  const { id } = req.params;
-  const result = await UserService.getSingleUserFromDB(id);
+  const { email } = req.query;
+  console.log(req.query);
+  const result = await UserService.getSingleUserFromDB(email as string);
 
   res.status(200).json({
     success: true,

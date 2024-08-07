@@ -39,6 +39,7 @@ const orderSchema = new Schema<TOrder>(
       required: [true, "Payment status is required"],
     },
     totalPayment: { type: Number, default: null },
+    delivaryFee: { type: Number, default: null },
     status: {
       type: String,
       enum: [

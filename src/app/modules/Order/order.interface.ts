@@ -8,6 +8,7 @@ export type TOrder = {
     productPrice: number;
     totalItem: number;
     totalPrice: number;
+    delivaryFee?:number |null,
     paymentStatus?: "payment complete" | "cash on delivery";
     totalPayment: number | null;
     status?: 'delivered' | 'onProcess' | 'cancel' | 'pending' | 'shipped' | 'returned';

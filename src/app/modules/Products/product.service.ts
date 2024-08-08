@@ -2,21 +2,22 @@ import { TProduct } from "./product.interface";
 import { Product } from "./product.model";
 
 const createProductInToDb = async (payload: TProduct) => {
+  // console.log(payload);
   const checkProduct = {
     name: payload?.name,
     category: payload?.category,
     price: payload?.price,
   };
-
+const {stockQuentity}=payload
   const isExistsProduct = await Product.findOne(checkProduct);
 
   if (isExistsProduct) {
-    const stockQuentity = isExistsProduct!.stockQuentity! + 1;
+    const NewStockQuentity = isExistsProduct!.stockQuentity! + Number(stockQuentity!);
 
     const result = Product.findByIdAndUpdate(
       isExistsProduct?._id,
       {
-        stockQuentity: stockQuentity,
+        stockQuentity: NewStockQuentity,
       },
       {
         new: true,
@@ -25,7 +26,7 @@ const createProductInToDb = async (payload: TProduct) => {
 
     return result;
   } else {
-    payload.stockQuentity = 1;
+    // payload.stockQuentity = 1;
     const result = await Product.create(payload);
 
     return result;

@@ -5,7 +5,7 @@ import { ADMIN_ROLE } from "./admin.constant"
 
 const router= express.Router()
 
-router.post('/',auth(ADMIN_ROLE.Admin),adminController.createAdmin)
+router.post('/',adminController.createAdmin)
 router.get('/',auth(ADMIN_ROLE.Admin),adminController.getAdmin)
 router.get('/:id',auth(ADMIN_ROLE.Admin),adminController.getSingleAdmin)
 router.delete('/:id',auth(ADMIN_ROLE.Admin),adminController.deleteAdmin)

@@ -26,7 +26,7 @@ const deleteAdminFromDB = async (id: string) => {
 };
 const updateAdminIntoDB = async (id: string,data:Partial<TAdmin>) => {
   // console.log(id);
-  const res = await AdminModel.findByIdAndDelete(id,data);
+  const res = await AdminModel.findByIdAndUpdate(id,data);
   return res;
 };
 

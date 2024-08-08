@@ -10,7 +10,17 @@ const createOrder = catchAsync(async (req: Request, res: Response) => {
       data: result,
     });
   });
+const findOrder = catchAsync(async (req: Request, res: Response) => {
+  const {status}=req.query;
+    const result = await orderService.findOrderFromDB(status);
+  
+    res.status(200).json({
+      success: true,
+      data: result,
+    });
+  });
 
   export const orderController={
-    createOrder
+    createOrder,
+    findOrder
   }

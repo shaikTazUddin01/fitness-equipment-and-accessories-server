@@ -27,6 +27,13 @@ const orderProduct = async (data: TOrder) => {
     return res;
 };
 
+const findOrderFromDB=async(status:string)=>{
+  // console.log({status:});
+  const res= await OrderModel.find({status})
+
+  return res;
+}
 export const orderService = {
   orderProduct,
+  findOrderFromDB
 };

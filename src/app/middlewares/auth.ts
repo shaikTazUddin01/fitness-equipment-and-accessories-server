@@ -30,14 +30,18 @@ const auth = (...requiredRoles: TAdminRole[]) => {
     const user = (decoded as JwtPayload)?.user;
     //check user exists or not
     const isUserExists = await AdminModel.findOne({ email: user });
+
+    // console.log(isUserExists);
+
     if (!isUserExists) {
       throw new AppError(httpStatus.UNAUTHORIZED, "you are not authorization");
     }
+    // console.log('object');
     //check status and isDeleted is ok or not
-    if (isUserExists.status !== "active" || isUserExists.isDeleted == true) {
+    if (isUserExists.status == "block" || isUserExists.isDeleted == true) {
       throw new AppError(httpStatus.UNAUTHORIZED, "you are not authorization");
     }
-    // console.log(role,requiredRoles);
+    // console.log("role-->",role,requiredRoles);
     if (requiredRoles && !requiredRoles.includes(role)) {
       throw new AppError(httpStatus.UNAUTHORIZED, "you are not authorization");
     }

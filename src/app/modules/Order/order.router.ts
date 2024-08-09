@@ -11,5 +11,10 @@ router.get(
   auth(ADMIN_ROLE.Admin, ADMIN_ROLE.SubAdmin),
   orderController.findOrder
 );
+router.put(
+  "/:id",
+  auth(ADMIN_ROLE.Admin, ADMIN_ROLE.SubAdmin),
+  orderController.updateOrderStatus
+);
 
 export const orderRoute = router;

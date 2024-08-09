@@ -9,7 +9,7 @@ const createAdminInToDB = async (data: TAdmin) => {
   return res;
 };
 const getAdminFromDB = async () => {
-  const res = await AdminModel.find();
+  const res = await AdminModel.find({isDeleted:false});
 
   return res;
 };
@@ -21,7 +21,7 @@ const getSingleAdminFromDB = async (id: string) => {
 };
 const deleteAdminFromDB = async (id: string) => {
   // console.log(id);
-  const res = await AdminModel.findByIdAndDelete(id);
+  const res = await AdminModel.findByIdAndUpdate(id,{isDeleted:true});
   return res;
 };
 const updateAdminIntoDB = async (id: string,data:Partial<TAdmin>) => {

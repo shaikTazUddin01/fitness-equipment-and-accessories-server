@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import httpStatus from "http-status";
 import { AppError } from "../../errors/AppErrors";
 import { Product } from "../Products/product.model";
@@ -23,8 +25,22 @@ const orderProduct = async (data: TOrder) => {
   if (stockQuentity === undefined || stockQuentity < totalItem) {
     throw new AppError(httpStatus.BAD_REQUEST, "This product is out of stock");
   }
+
   // console.log(data);
   const res = await OrderModel.create(data);
+
+  const updataStock = await Product.updateOne(
+    {
+      name: productName,
+      category: productCategory,
+      price: productPrice,
+    },
+    {
+      stockQuentity: stockQuentity - totalItem,
+    }
+  );
+
+  // console.log(updataStock);
 
   const customerInfo = {
     address: res.customerAddress,
@@ -39,7 +55,7 @@ const orderProduct = async (data: TOrder) => {
 
   if (!isCustomerExists) {
     const customer = await CustomerModel.create(customerInfo);
-    console.log(customer);
+    // console.log(customer);
   }
 
   return res;

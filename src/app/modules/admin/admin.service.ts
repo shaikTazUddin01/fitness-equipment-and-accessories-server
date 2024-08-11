@@ -8,14 +8,12 @@ const createAdminInToDB = async (data: TAdmin) => {
   const res = await AdminModel.create(data);
   return res;
 };
-const getAdminFromDB = async ( email:string  | undefined |null ) => {
- 
-  console.log(email);
+const getAdminFromDB = async (email: string | undefined | null) => {
   const searchCriteria: any = { isDeleted: false };
-  if (email) {
+  if (email != "[object Object]") {
     searchCriteria.email = email;
   }
-  // console.log(searchCriteria);
+
   const res = await AdminModel.find(searchCriteria);
   return res;
 };

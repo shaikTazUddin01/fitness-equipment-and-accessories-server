@@ -18,7 +18,7 @@ const createAdminInToDB = (data) => __awaiter(void 0, void 0, void 0, function* 
     return res;
 });
 const getAdminFromDB = () => __awaiter(void 0, void 0, void 0, function* () {
-    const res = yield admin_model_1.AdminModel.find();
+    const res = yield admin_model_1.AdminModel.find({ isDeleted: false });
     return res;
 });
 const getSingleAdminFromDB = (id) => __awaiter(void 0, void 0, void 0, function* () {
@@ -26,8 +26,19 @@ const getSingleAdminFromDB = (id) => __awaiter(void 0, void 0, void 0, function*
     const res = yield admin_model_1.AdminModel.findById(id);
     return res;
 });
+const deleteAdminFromDB = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    // console.log(id);
+    const res = yield admin_model_1.AdminModel.findByIdAndUpdate(id, { isDeleted: true });
+    return res;
+});
+const updateAdminIntoDB = (id, data) => __awaiter(void 0, void 0, void 0, function* () {
+    // console.log(id);
+    const res = yield admin_model_1.AdminModel.findByIdAndUpdate(id, data);
+    return res;
+});
 exports.adminService = {
     getAdminFromDB,
     getSingleAdminFromDB,
     createAdminInToDB,
+    updateAdminIntoDB, deleteAdminFromDB
 };

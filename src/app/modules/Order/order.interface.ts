@@ -1,4 +1,7 @@
+import { Types } from "mongoose";
+
 export type TOrder = {
+  userId:Types.ObjectId;
     customerName: string;
     customerEmail: string;
     customerNumber: string;

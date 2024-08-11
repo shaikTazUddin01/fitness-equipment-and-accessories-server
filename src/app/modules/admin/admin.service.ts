@@ -4,13 +4,19 @@ import { AdminModel } from "./admin.model";
 const createAdminInToDB = async (data: TAdmin) => {
   data.status = "active";
   data.isDeleted = false;
- 
+
   const res = await AdminModel.create(data);
   return res;
 };
-const getAdminFromDB = async () => {
-  const res = await AdminModel.find({isDeleted:false});
-
+const getAdminFromDB = async ( email:string  | undefined |null ) => {
+ 
+  console.log(email);
+  const searchCriteria: any = { isDeleted: false };
+  if (email) {
+    searchCriteria.email = email;
+  }
+  // console.log(searchCriteria);
+  const res = await AdminModel.find(searchCriteria);
   return res;
 };
 
@@ -21,12 +27,13 @@ const getSingleAdminFromDB = async (id: string) => {
 };
 const deleteAdminFromDB = async (id: string) => {
   // console.log(id);
-  const res = await AdminModel.findByIdAndUpdate(id,{isDeleted:true});
+  const res = await AdminModel.findByIdAndUpdate(id, { isDeleted: true });
   return res;
 };
-const updateAdminIntoDB = async (id: string,data:Partial<TAdmin>) => {
-  // console.log(id);
-  const res = await AdminModel.findByIdAndUpdate(id,data);
+const updateAdminIntoDB = async (id: string, data: Partial<TAdmin>) => {
+  // console.log(id,data);
+  // const user=
+  const res = await AdminModel.findByIdAndUpdate(id, data);
   return res;
 };
 
@@ -34,5 +41,6 @@ export const adminService = {
   getAdminFromDB,
   getSingleAdminFromDB,
   createAdminInToDB,
-  updateAdminIntoDB,deleteAdminFromDB
+  updateAdminIntoDB,
+  deleteAdminFromDB,
 };

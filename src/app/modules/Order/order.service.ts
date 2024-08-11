@@ -42,20 +42,22 @@ const orderProduct = async (data: TOrder) => {
 
   // console.log(updataStock);
 
-  const customerInfo = {
-    address: res.customerAddress,
-    email: res.customerEmail,
-    name: res.customerName,
-    phoneNumber: res.customerNumber,
-  };
+  // const customerInfo = {
+  //   address: res.customerAddress,
+  //   email: res.customerEmail,
+  //   name: res.customerName,
+  //   phoneNumber: res.customerNumber,
+  // };
 
+  const customerId=res.userId
   const isCustomerExists = await CustomerModel.findOne({
     email: res.customerEmail,
   });
 
+  console.log(customerId);
   if (!isCustomerExists) {
-    const customer = await CustomerModel.create(customerInfo);
-    // console.log(customer);
+    const customer = await CustomerModel.create({customerId:customerId});
+    console.log(customer);
   }
 
   return res;
@@ -63,7 +65,7 @@ const orderProduct = async (data: TOrder) => {
 
 const findOrderFromDB = async (status: string) => {
   // console.log({status:});
-  const res = await OrderModel.find({ status });
+  const res = await OrderModel.find({ status }).populate('userId');
 
   return res;
 };

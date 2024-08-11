@@ -51,7 +51,7 @@ const AdminLogin = (data) => __awaiter(void 0, void 0, void 0, function* () {
 //user Login
 const UserLogin = (data) => __awaiter(void 0, void 0, void 0, function* () {
     const isUserExists = yield user_model_1.UserModel.findOne({ email: data === null || data === void 0 ? void 0 : data.email });
-    console.log(isUserExists);
+    console.log("user", isUserExists);
     if (!isUserExists) {
         throw new AppErrors_1.AppError(http_status_1.default.UNAUTHORIZED, "you are not authorized");
     }
@@ -62,10 +62,12 @@ const UserLogin = (data) => __awaiter(void 0, void 0, void 0, function* () {
         throw new AppErrors_1.AppError(http_status_1.default.FORBIDDEN, "something is wrong please try with right information");
     }
     const jwtPayload = {
+        id: isUserExists === null || isUserExists === void 0 ? void 0 : isUserExists._id,
         user: isUserExists === null || isUserExists === void 0 ? void 0 : isUserExists.email,
         role: isUserExists === null || isUserExists === void 0 ? void 0 : isUserExists.role,
     };
     // access token
+    // console.log(jwtPayload);
     const access_Token = (0, auth_utilis_1.createToken)(jwtPayload, config_1.default.jwt_access_secret, config_1.default.jwt_access_expressIn);
     //  refresh token
     const refresh_Token = (0, auth_utilis_1.createToken)(jwtPayload, config_1.default.jwt_refresh_secret, config_1.default.jwt_refresh_expressIn);

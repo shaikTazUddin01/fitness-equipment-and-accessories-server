@@ -30,7 +30,7 @@ const AdminLogin = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, voi
 }));
 const UserLogin = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield auth_service_1.authServices.UserLogin(req.body);
-    console.log(result);
+    // console.log(result);
     const { refreshToken, accessToken } = result;
     res.cookie("refreshToken", refreshToken, {
         secure: config_1.default.node_env === "production",

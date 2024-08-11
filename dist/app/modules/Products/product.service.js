@@ -12,23 +12,25 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.productServices = void 0;
 const product_model_1 = require("./product.model");
 const createProductInToDb = (payload) => __awaiter(void 0, void 0, void 0, function* () {
+    // console.log(payload);
     const checkProduct = {
         name: payload === null || payload === void 0 ? void 0 : payload.name,
         category: payload === null || payload === void 0 ? void 0 : payload.category,
         price: payload === null || payload === void 0 ? void 0 : payload.price,
     };
+    const { stockQuentity } = payload;
     const isExistsProduct = yield product_model_1.Product.findOne(checkProduct);
     if (isExistsProduct) {
-        const stockQuentity = isExistsProduct.stockQuentity + 1;
+        const NewStockQuentity = isExistsProduct.stockQuentity + Number(stockQuentity);
         const result = product_model_1.Product.findByIdAndUpdate(isExistsProduct === null || isExistsProduct === void 0 ? void 0 : isExistsProduct._id, {
-            stockQuentity: stockQuentity,
+            stockQuentity: NewStockQuentity,
         }, {
             new: true,
         });
         return result;
     }
     else {
-        payload.stockQuentity = 1;
+        // payload.stockQuentity = 1;
         const result = yield product_model_1.Product.create(payload);
         return result;
     }

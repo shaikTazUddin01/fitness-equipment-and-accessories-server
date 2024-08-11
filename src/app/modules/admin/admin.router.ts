@@ -7,7 +7,7 @@ const router= express.Router()
 
 router.post('/',adminController.createAdmin)
 router.get('/',auth(ADMIN_ROLE.Admin),adminController.getAdmin)
-router.get('/:id',auth(ADMIN_ROLE.Admin),adminController.getSingleAdmin)
+// router.get('/:id',auth(ADMIN_ROLE.Admin),adminController.getSingleAdmin)
 router.delete('/:id',auth(ADMIN_ROLE.Admin),adminController.deleteAdmin)
 router.put('/:id',auth(ADMIN_ROLE.Admin),adminController.updateAdmin)
 

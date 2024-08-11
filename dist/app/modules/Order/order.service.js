@@ -13,10 +13,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.orderService = void 0;
+/* eslint-disable no-unused-vars */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 const http_status_1 = __importDefault(require("http-status"));
 const AppErrors_1 = require("../../errors/AppErrors");
 const product_model_1 = require("../Products/product.model");
 const order_model_1 = require("./order.model");
+const customer_model_1 = require("../Customer/customer.model");
 const orderProduct = (data) => __awaiter(void 0, void 0, void 0, function* () {
     data.status = "onProcess";
     const { productName, productCategory, productPrice, totalItem } = data;
@@ -34,8 +37,43 @@ const orderProduct = (data) => __awaiter(void 0, void 0, void 0, function* () {
     }
     // console.log(data);
     const res = yield order_model_1.OrderModel.create(data);
+    const updataStock = yield product_model_1.Product.updateOne({
+        name: productName,
+        category: productCategory,
+        price: productPrice,
+    }, {
+        stockQuentity: stockQuentity - totalItem,
+    });
+    // console.log(updataStock);
+    // const customerInfo = {
+    //   address: res.customerAddress,
+    //   email: res.customerEmail,
+    //   name: res.customerName,
+    //   phoneNumber: res.customerNumber,
+    // };
+    const customerId = res.userId;
+    const isCustomerExists = yield customer_model_1.CustomerModel.findOne({
+        email: res.customerEmail,
+    });
+    console.log(customerId);
+    if (!isCustomerExists) {
+        const customer = yield customer_model_1.CustomerModel.create({ customerId: customerId });
+        console.log(customer);
+    }
+    return res;
+});
+const findOrderFromDB = (status) => __awaiter(void 0, void 0, void 0, function* () {
+    // console.log({status:});
+    const res = yield order_model_1.OrderModel.find({ status }).populate('userId');
+    return res;
+});
+const updateOrderStatusInToDB = (id, status) => __awaiter(void 0, void 0, void 0, function* () {
+    // console.log(id, status);
+    const res = yield order_model_1.OrderModel.findByIdAndUpdate(id, status);
     return res;
 });
 exports.orderService = {
     orderProduct,
+    findOrderFromDB,
+    updateOrderStatusInToDB,
 };

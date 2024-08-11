@@ -31,7 +31,7 @@ const auth = (...requiredRoles) => {
         catch (error) {
             throw new AppErrors_1.AppError(http_status_1.default.UNAUTHORIZED, "you are not authorization");
         }
-        console.log(decoded);
+        // console.log(decoded);
         if (!decoded) {
             throw new AppErrors_1.AppError(http_status_1.default.UNAUTHORIZED, "you are not authorization");
         }
@@ -39,14 +39,16 @@ const auth = (...requiredRoles) => {
         const user = decoded === null || decoded === void 0 ? void 0 : decoded.user;
         //check user exists or not
         const isUserExists = yield admin_model_1.AdminModel.findOne({ email: user });
+        // console.log(isUserExists);
         if (!isUserExists) {
             throw new AppErrors_1.AppError(http_status_1.default.UNAUTHORIZED, "you are not authorization");
         }
+        // console.log('object');
         //check status and isDeleted is ok or not
-        if (isUserExists.status !== "active" || isUserExists.isDeleted == true) {
+        if (isUserExists.status == "block" || isUserExists.isDeleted == true) {
             throw new AppErrors_1.AppError(http_status_1.default.UNAUTHORIZED, "you are not authorization");
         }
-        // console.log(role,requiredRoles);
+        // console.log("role-->",role,requiredRoles);
         if (requiredRoles && !requiredRoles.includes(role)) {
             throw new AppErrors_1.AppError(http_status_1.default.UNAUTHORIZED, "you are not authorization");
         }

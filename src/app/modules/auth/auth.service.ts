@@ -51,7 +51,7 @@ const AdminLogin = async (data: TAuth) => {
 const UserLogin = async (data: TAuth) => {
   const isUserExists = await UserModel.findOne({ email: data?.email });
 
-  console.log(isUserExists);
+  console.log("user",isUserExists);
   if (!isUserExists) {
     throw new AppError(httpStatus.UNAUTHORIZED,"you are not authorized");
   }
@@ -64,10 +64,12 @@ const UserLogin = async (data: TAuth) => {
     throw new AppError(httpStatus.FORBIDDEN,"something is wrong please try with right information");
   }
   const jwtPayload = {
+    id:isUserExists?._id,
     user: isUserExists?.email,
     role: isUserExists?.role,
   };
   // access token
+  // console.log(jwtPayload);
   const access_Token = createToken(
     jwtPayload,
     config.jwt_access_secret as string,

@@ -3,6 +3,10 @@ import { TOrder } from "./order.interface";
 
 const orderSchema = new Schema<TOrder>(
   {
+    userId: {
+      type: Schema.Types.ObjectId,
+      ref:'User',
+    },
     customerName: {
       type: String,
       required: [true, "Customer name is required"],

@@ -18,7 +18,7 @@ const AdminLogin = catchAsync(async (req: Request, res: Response) => {
 });
 const UserLogin = catchAsync(async (req: Request, res: Response) => {
   const result = await authServices.UserLogin(req.body);
-  console.log(result);
+  // console.log(result);
   const { refreshToken, accessToken } = result;
   res.cookie("refreshToken", refreshToken, {
     secure: config.node_env === "production",

@@ -53,9 +53,9 @@ const deleteProductById = (0, catchAsync_1.default)((req, res) => __awaiter(void
 //UPdate Product
 const updateProductById = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
-    const detail = req.body;
-    // console.log(id,detail);
-    const result = yield product_service_1.productServices.updateProductfromDb(id, detail);
+    req.body;
+    // console.log(id,req.body);
+    const result = yield product_service_1.productServices.updateProductfromDb(id, req.body);
     res.status(200).json({
         success: true,
         data: result,

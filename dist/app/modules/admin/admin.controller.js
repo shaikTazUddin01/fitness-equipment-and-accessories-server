@@ -37,8 +37,27 @@ const getSingleAdmin = (0, catchAsync_1.default)((req, res) => __awaiter(void 0,
         data: result,
     });
 }));
+const deleteAdmin = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req.params;
+    const result = yield admin_service_1.adminService.deleteAdminFromDB(id);
+    res.status(200).json({
+        success: true,
+        data: result,
+    });
+}));
+const updateAdmin = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req.params;
+    // console.log(req.params,req.body);
+    const result = yield admin_service_1.adminService.updateAdminIntoDB(id, req.body);
+    res.status(200).json({
+        success: true,
+        data: result,
+    });
+}));
 exports.adminController = {
     getAdmin,
     getSingleAdmin,
-    createAdmin
+    createAdmin,
+    deleteAdmin,
+    updateAdmin,
 };

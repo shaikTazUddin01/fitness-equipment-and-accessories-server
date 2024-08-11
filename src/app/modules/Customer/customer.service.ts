@@ -1,7 +1,7 @@
 import { CustomerModel } from "./customer.model"
 
 const findCustomerFromDB=async()=>{
-    const res=await CustomerModel.find()
+    const res=await CustomerModel.find().populate('customerId')
     return res;
 }
 

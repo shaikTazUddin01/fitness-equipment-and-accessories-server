@@ -1,6 +1,9 @@
+import httpStatus from "http-status";
+import { AppError } from "../../errors/AppErrors";
 import { TAdmin } from "./admin.interface";
 import { AdminModel } from "./admin.model";
-
+import bcrypt from "bcrypt";
+import config from "../../config";
 const createAdminInToDB = async (data: TAdmin) => {
   data.status = "active";
   data.isDeleted = false;
@@ -34,12 +37,29 @@ const updateAdminIntoDB = async (id: string, data: Partial<TAdmin>) => {
   const res = await AdminModel.findByIdAndUpdate(id, data);
   return res;
 };
-const updatePassword = async (email: string, data: Partial<TAdmin>) => {
-  // console.log(id,data);
-  // const user=
-  console.log("--->",email,data);
-  // const res = await AdminModel.findByIdAndUpdate(email, data);
-  const res=0
+const updatePassword = async (email: string, data: Record<string, string>) => {
+  const isUserExists = await AdminModel.findOne({ email });
+  if (!isUserExists) {
+    throw new AppError(httpStatus.UNAUTHORIZED, "you are not authorized");
+  }
+  const hashPassword = isUserExists.password;
+  const isOldPasswordmatched = await bcrypt.compare(
+    data.oldPassword,
+    hashPassword
+  );
+  if (!isOldPasswordmatched) {
+    throw new AppError(httpStatus.NOT_FOUND, "your old password is incorrect");
+  }
+  
+  const newPassword =await  bcrypt.hash(
+    data?.newPassword,
+    Number(config.saltRounds)
+  );
+
+  const res = await AdminModel.findOneAndUpdate({email}, {password:newPassword});
+
+
+
   return res;
 };
 
@@ -49,5 +69,5 @@ export const adminService = {
   createAdminInToDB,
   updateAdminIntoDB,
   deleteAdminFromDB,
-  updatePassword
+  updatePassword,
 };

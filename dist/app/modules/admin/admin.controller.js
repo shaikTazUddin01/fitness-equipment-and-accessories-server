@@ -15,6 +15,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.adminController = void 0;
 const admin_service_1 = require("./admin.service");
 const catchAsync_1 = __importDefault(require("../../utils/catchAsync"));
+// import { AppError } from "../../errors/AppErrors";
+// import httpStatus from "http-status";
 const createAdmin = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield admin_service_1.adminService.createAdminInToDB(req.body);
     res.status(200).json({
@@ -23,7 +25,10 @@ const createAdmin = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, vo
     });
 }));
 const getAdmin = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield admin_service_1.adminService.getAdminFromDB();
+    const { email } = req.query;
+    // console.log(email);
+    const result = yield admin_service_1.adminService.getAdminFromDB(email);
+    // console.log(result);
     res.status(200).json({
         success: true,
         data: result,
@@ -47,11 +52,25 @@ const deleteAdmin = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, vo
 }));
 const updateAdmin = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
-    // console.log(req.params,req.body);
+    // if(req.user.user !==req.body.email){
+    //   throw new AppError(httpStatus.UNAUTHORIZED,"you are not authorization")
+    // }
     const result = yield admin_service_1.adminService.updateAdminIntoDB(id, req.body);
     res.status(200).json({
         success: true,
         data: result,
+    });
+}));
+const updatePassword = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    // console.log("object");
+    console.log(req.query, req.body);
+    // if(req.user.user !==req.query){
+    //   throw new AppError(httpStatus.UNAUTHORIZED,"you are not authorization")
+    // }
+    const result = yield admin_service_1.adminService.updateAdminIntoDB(req.query, req.body);
+    res.status(200).json({
+        success: true,
+        data: 'result',
     });
 }));
 exports.adminController = {
@@ -60,4 +79,5 @@ exports.adminController = {
     createAdmin,
     deleteAdmin,
     updateAdmin,
+    updatePassword,
 };

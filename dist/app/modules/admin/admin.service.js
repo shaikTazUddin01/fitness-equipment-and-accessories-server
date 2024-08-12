@@ -17,8 +17,12 @@ const createAdminInToDB = (data) => __awaiter(void 0, void 0, void 0, function* 
     const res = yield admin_model_1.AdminModel.create(data);
     return res;
 });
-const getAdminFromDB = () => __awaiter(void 0, void 0, void 0, function* () {
-    const res = yield admin_model_1.AdminModel.find({ isDeleted: false });
+const getAdminFromDB = (email) => __awaiter(void 0, void 0, void 0, function* () {
+    const searchCriteria = { isDeleted: false };
+    if (email != "[object Object]") {
+        searchCriteria.email = email;
+    }
+    const res = yield admin_model_1.AdminModel.find(searchCriteria);
     return res;
 });
 const getSingleAdminFromDB = (id) => __awaiter(void 0, void 0, void 0, function* () {
@@ -32,13 +36,24 @@ const deleteAdminFromDB = (id) => __awaiter(void 0, void 0, void 0, function* ()
     return res;
 });
 const updateAdminIntoDB = (id, data) => __awaiter(void 0, void 0, void 0, function* () {
-    // console.log(id);
+    // console.log(id,data);
+    // const user=
     const res = yield admin_model_1.AdminModel.findByIdAndUpdate(id, data);
+    return res;
+});
+const updatePassword = (email, data) => __awaiter(void 0, void 0, void 0, function* () {
+    // console.log(id,data);
+    // const user=
+    console.log("--->", email, data);
+    // const res = await AdminModel.findByIdAndUpdate(email, data);
+    const res = 0;
     return res;
 });
 exports.adminService = {
     getAdminFromDB,
     getSingleAdminFromDB,
     createAdminInToDB,
-    updateAdminIntoDB, deleteAdminFromDB
+    updateAdminIntoDB,
+    deleteAdminFromDB,
+    updatePassword
 };

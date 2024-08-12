@@ -1,8 +1,7 @@
 import { Request, Response } from "express";
 import { adminService } from "./admin.service";
 import catchAsync from "../../utils/catchAsync";
-import httpStatus from "http-status";
-import { AppError } from "../../errors/AppErrors";
+
 // import { AppError } from "../../errors/AppErrors";
 // import httpStatus from "http-status";
 
@@ -56,18 +55,18 @@ const updateAdmin = catchAsync(async (req: Request, res: Response) => {
   });
 });
 const updatePassword = catchAsync(async (req: Request, res: Response) => {
-  // console.log("object");
-  console.log(req.query, req.body);
+
+  const adminEmail=req.query.email
 
 
-  // if(req.user.user !==req.query){
-  //   throw new AppError(httpStatus.UNAUTHORIZED,"you are not authorization")
-  // }
-  const result = await adminService.updateAdminIntoDB(req.query, req.body);
+  
+  const result = await adminService.updatePassword(adminEmail as string, req.body);
+
+  
 
   res.status(200).json({
     success: true,
-    data: 'result',
+    data: result,
   });
 });
 

@@ -1,6 +1,7 @@
 # Project Name : Fitness Equipment and accessories (Server)
 
-**Live Link : [https://fitness-equipment-server-silk.vercel.app](https://fitness-equipment-server-silk.vercel.app/)** 
+**Live Link Server: [https://fitness-equipment-server-silk.vercel.app](https://fitness-equipment-server-silk.vercel.app/)** 
+**Website Live Link : [https://-thunderfitnesscare.netlify.app](https://thunder-fitnesscare.netlify.app/)** </br>
 
 ## Features
 

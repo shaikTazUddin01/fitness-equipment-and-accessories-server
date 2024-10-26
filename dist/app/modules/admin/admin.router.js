@@ -9,10 +9,10 @@ const admin_controller_1 = require("./admin.controller");
 const auth_1 = __importDefault(require("../../middlewares/auth"));
 const admin_constant_1 = require("./admin.constant");
 const router = express_1.default.Router();
-router.post("/", admin_controller_1.adminController.createAdmin);
-router.get("/", (0, auth_1.default)(admin_constant_1.ADMIN_ROLE.Admin), admin_controller_1.adminController.getAdmin);
+router.post("/", (0, auth_1.default)(admin_constant_1.ADMIN_ROLE.Admin), admin_controller_1.adminController.createAdmin);
+router.get("/", (0, auth_1.default)(admin_constant_1.ADMIN_ROLE.Admin, admin_constant_1.ADMIN_ROLE.SubAdmin), admin_controller_1.adminController.getAdmin);
 // router.get('/:id',auth(ADMIN_ROLE.Admin),adminController.getSingleAdmin)
 router.delete("/:id", (0, auth_1.default)(admin_constant_1.ADMIN_ROLE.Admin), admin_controller_1.adminController.deleteAdmin);
-router.put("/updatePassword", (0, auth_1.default)(admin_constant_1.ADMIN_ROLE.Admin), admin_controller_1.adminController.updatePassword);
-router.put("/:id", (0, auth_1.default)(admin_constant_1.ADMIN_ROLE.Admin), admin_controller_1.adminController.updateAdmin);
+router.put("/updatePassword", (0, auth_1.default)(admin_constant_1.ADMIN_ROLE.Admin, admin_constant_1.ADMIN_ROLE.SubAdmin), admin_controller_1.adminController.updatePassword);
+router.put("/:id", (0, auth_1.default)(admin_constant_1.ADMIN_ROLE.Admin, admin_constant_1.ADMIN_ROLE.SubAdmin), admin_controller_1.adminController.updateAdmin);
 exports.adminRoute = router;

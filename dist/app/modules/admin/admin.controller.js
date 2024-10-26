@@ -62,15 +62,11 @@ const updateAdmin = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, vo
     });
 }));
 const updatePassword = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    // console.log("object");
-    console.log(req.query, req.body);
-    // if(req.user.user !==req.query){
-    //   throw new AppError(httpStatus.UNAUTHORIZED,"you are not authorization")
-    // }
-    const result = yield admin_service_1.adminService.updateAdminIntoDB(req.query, req.body);
+    const adminEmail = req.query.email;
+    const result = yield admin_service_1.adminService.updatePassword(adminEmail, req.body);
     res.status(200).json({
         success: true,
-        data: 'result',
+        data: result,
     });
 }));
 exports.adminController = {

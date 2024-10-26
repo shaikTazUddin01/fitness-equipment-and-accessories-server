@@ -8,11 +8,12 @@ const createProductInToDb = async (payload: TProduct) => {
     category: payload?.category,
     price: payload?.price,
   };
-const {stockQuentity}=payload
+  const { stockQuentity } = payload;
   const isExistsProduct = await Product.findOne(checkProduct);
 
   if (isExistsProduct) {
-    const NewStockQuentity = isExistsProduct!.stockQuentity! + Number(stockQuentity!);
+    const NewStockQuentity =
+      isExistsProduct!.stockQuentity! + Number(stockQuentity!);
 
     const result = Product.findByIdAndUpdate(
       isExistsProduct?._id,
@@ -35,13 +36,15 @@ const {stockQuentity}=payload
 //get product
 const getProductfromDb = async (query: any) => {
   let sortedProduct = "-createdAt";
-
+  // console.log(query);
   // eslint-disable-next-line prefer-const
-  let selectedCategory: string[] = [];
+  // let selectedCategory: string[] = [];
 
-  if (query?.selectedCategory ) {
-    selectedCategory=query?.selectedCategory.split(',').map((category:string)=>category.trim())
-  }
+  // if (query?.selectedCategory) {
+  //   selectedCategory = query?.selectedCategory
+  //     .split(",")
+  //     .map((category: string) => category.trim());
+  // }
   if (query?.sortProductByPrice) {
     const sortByPrice = query?.sortProductByPrice;
     if (sortByPrice == "dsc") {
@@ -56,12 +59,25 @@ const getProductfromDb = async (query: any) => {
   if (query && query.searchProduct) {
     searchProduct.name = { $regex: query.searchProduct, $options: "i" };
   }
-//caltegory filter
-  if (selectedCategory.length>0) {
-   
-    searchProduct.category = {$in:selectedCategory}
+  if (query && query.feature ) {
+    searchProduct.isFeature = query?.feature;
   }
+  //caltegory filter
+  if (query?.selectedCategory) {
+    searchProduct.category = { $in: query?.selectedCategory };
+  }
+  //price range filter
+  if (query?.priceRange) {
+    const priceFilter=query.priceRange.split(",").map(Number)
 
+    if (priceFilter.length === 2) {
+      searchProduct.price = {
+        $gt: priceFilter[0],
+        $lt: priceFilter[1],
+      };
+    }
+  }
+  // console.log(searchProduct);
   // console.log(query);
   const result = await Product.find(searchProduct).sort(sortedProduct);
 

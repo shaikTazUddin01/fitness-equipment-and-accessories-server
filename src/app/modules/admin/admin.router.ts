@@ -5,15 +5,15 @@ import { ADMIN_ROLE } from "./admin.constant";
 
 const router = express.Router();
 
-router.post("/", adminController.createAdmin);
-router.get("/", auth(ADMIN_ROLE.Admin), adminController.getAdmin);
+router.post("/",auth(ADMIN_ROLE.Admin), adminController.createAdmin);
+router.get("/", auth(ADMIN_ROLE.Admin,ADMIN_ROLE.SubAdmin), adminController.getAdmin);
 // router.get('/:id',auth(ADMIN_ROLE.Admin),adminController.getSingleAdmin)
 router.delete("/:id", auth(ADMIN_ROLE.Admin), adminController.deleteAdmin);
 router.put(
   "/updatePassword",
-  auth(ADMIN_ROLE.Admin),
+  auth(ADMIN_ROLE.Admin,ADMIN_ROLE.SubAdmin),
   adminController.updatePassword
 );
-router.put("/:id", auth(ADMIN_ROLE.Admin), adminController.updateAdmin);
+router.put("/:id", auth(ADMIN_ROLE.Admin,ADMIN_ROLE.SubAdmin), adminController.updateAdmin);
 
 export const adminRoute = router;

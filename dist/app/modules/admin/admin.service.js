@@ -8,9 +8,16 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.adminService = void 0;
+const http_status_1 = __importDefault(require("http-status"));
+const AppErrors_1 = require("../../errors/AppErrors");
 const admin_model_1 = require("./admin.model");
+const bcrypt_1 = __importDefault(require("bcrypt"));
+const config_1 = __importDefault(require("../../config"));
 const createAdminInToDB = (data) => __awaiter(void 0, void 0, void 0, function* () {
     data.status = "active";
     data.isDeleted = false;
@@ -42,11 +49,17 @@ const updateAdminIntoDB = (id, data) => __awaiter(void 0, void 0, void 0, functi
     return res;
 });
 const updatePassword = (email, data) => __awaiter(void 0, void 0, void 0, function* () {
-    // console.log(id,data);
-    // const user=
-    console.log("--->", email, data);
-    // const res = await AdminModel.findByIdAndUpdate(email, data);
-    const res = 0;
+    const isUserExists = yield admin_model_1.AdminModel.findOne({ email });
+    if (!isUserExists) {
+        throw new AppErrors_1.AppError(http_status_1.default.UNAUTHORIZED, "you are not authorized");
+    }
+    const hashPassword = isUserExists.password;
+    const isOldPasswordmatched = yield bcrypt_1.default.compare(data.oldPassword, hashPassword);
+    if (!isOldPasswordmatched) {
+        throw new AppErrors_1.AppError(http_status_1.default.NOT_FOUND, "your old password is incorrect");
+    }
+    const newPassword = yield bcrypt_1.default.hash(data === null || data === void 0 ? void 0 : data.newPassword, Number(config_1.default.saltRounds));
+    const res = yield admin_model_1.AdminModel.findOneAndUpdate({ email }, { password: newPassword });
     return res;
 });
 exports.adminService = {
@@ -55,5 +68,5 @@ exports.adminService = {
     createAdminInToDB,
     updateAdminIntoDB,
     deleteAdminFromDB,
-    updatePassword
+    updatePassword,
 };

@@ -16,6 +16,7 @@ exports.orderController = void 0;
 const catchAsync_1 = __importDefault(require("../../utils/catchAsync"));
 const order_service_1 = require("./order.service");
 const createOrder = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    // console.log("-->>",req.body);
     const result = yield order_service_1.orderService.orderProduct(req.body);
     res.status(200).json({
         success: true,

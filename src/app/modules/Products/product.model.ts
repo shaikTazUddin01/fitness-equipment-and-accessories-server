@@ -8,6 +8,7 @@ const productSchems = new Schema<TProduct>({
   detail: { type: String, required: true },
   category:{ type: String, required: true },
   stockQuentity:{ type: Number},
+  isFeature:{type:String,enum:["True","False"],default:"False"}
 
 }, { timestamps: true });
 

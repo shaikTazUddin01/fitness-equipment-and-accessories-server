@@ -5,4 +5,5 @@ export type TProduct = {
   detail: string;
   category:string;
   stockQuentity?:number |undefined ;
+  isFeature:"True"|"False";
 };

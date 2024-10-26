@@ -17,6 +17,7 @@ const auth_service_1 = require("./auth.service");
 const catchAsync_1 = __importDefault(require("../../utils/catchAsync"));
 const config_1 = __importDefault(require("../../config"));
 const AdminLogin = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    // console.log(req.body);
     const result = yield auth_service_1.authServices.AdminLogin(req.body);
     const { refreshToken, accessToken } = result;
     res.cookie("refreshToken", refreshToken, {

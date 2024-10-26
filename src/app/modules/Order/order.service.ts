@@ -15,21 +15,23 @@ const orderProduct = async (data: TOrder) => {
     category: productCategory,
     price: productPrice,
   });
-
+  // console.log(isProductOnStock);
   if (!isProductOnStock) {
     throw new AppError(httpStatus.NOT_FOUND, "Product not found");
   }
 
   const { stockQuentity } = isProductOnStock;
-
+  // console.log("total",totalItem);
   if (stockQuentity === undefined || stockQuentity < totalItem) {
     throw new AppError(httpStatus.BAD_REQUEST, "This product is out of stock");
   }
+  // console.log(stockQuentity);
 
   // console.log(data);
   const res = await OrderModel.create(data);
+  // console.log('hkjhjk--',res);
 
-  const updataStock = await Product.updateOne(
+  await Product.updateOne(
     {
       name: productName,
       category: productCategory,
@@ -40,32 +42,12 @@ const orderProduct = async (data: TOrder) => {
     }
   );
 
-  // console.log(updataStock);
-
-  // const customerInfo = {
-  //   address: res.customerAddress,
-  //   email: res.customerEmail,
-  //   name: res.customerName,
-  //   phoneNumber: res.customerNumber,
-  // };
-
-  const customerId=res.userId
-  const isCustomerExists = await CustomerModel.findOne({
-    email: res.customerEmail,
-  });
-
-  console.log(customerId);
-  if (!isCustomerExists) {
-    const customer = await CustomerModel.create({customerId:customerId});
-    console.log(customer);
-  }
-
   return res;
 };
 
 const findOrderFromDB = async (status: string) => {
   // console.log({status:});
-  const res = await OrderModel.find({ status }).populate('userId');
+  const res = await OrderModel.find({ status }).populate("userId");
 
   return res;
 };

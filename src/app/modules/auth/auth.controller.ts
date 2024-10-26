@@ -4,6 +4,7 @@ import catchAsync from "../../utils/catchAsync";
 import config from "../../config";
 
 const AdminLogin = catchAsync(async (req: Request, res: Response) => {
+  // console.log(req.body);
   const result = await authServices.AdminLogin(req.body);
   const { refreshToken, accessToken } = result;
   res.cookie("refreshToken", refreshToken, {

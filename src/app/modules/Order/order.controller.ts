@@ -3,6 +3,7 @@ import catchAsync from "../../utils/catchAsync";
 import { orderService } from "./order.service";
 
 const createOrder = catchAsync(async (req: Request, res: Response) => {
+  // console.log("-->>",req.body);
   const result = await orderService.orderProduct(req.body);
 
   res.status(200).json({

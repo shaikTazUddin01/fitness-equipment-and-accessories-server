@@ -4,16 +4,13 @@ import { TUser } from "./user.interface";
 import { UserModel } from "./user.model";
 
 const createUserInToDB = async (data: TUser) => {
-console.log(data);
+
   const email=data.email
   const phoneNumber=data.phoneNumber as string
-  const isUserExists=await UserModel.findOne({email})
+  const isUserExists=await UserModel.findOne({email,phoneNumber})
 
  if (isUserExists) {
   throw new AppError(httpStatus.FORBIDDEN,'this email is alreary used,please use another email')
- }
- if (isUserExists!.phoneNumber == phoneNumber) {
-  throw new AppError(httpStatus.FORBIDDEN,'this Phone Number is alreary used,please use another Phone Number')
  }
 
   data.isDeleted = false;

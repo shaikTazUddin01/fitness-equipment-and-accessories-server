@@ -23,11 +23,11 @@ const orderSchema = new Schema<TOrder>(
       type: String,
       required: [true, "Customer address is required"],
     },
-    productName: { type: String, required: [true, "Product name is required"] },
-    productCategory: {
-      type: String,
-      required: [true, "Product category is required"],
-    },
+    productId:{
+      type: Schema.Types.ObjectId,
+      ref:'product',
+    }
+,
     productPrice: {
       type: Number,
       required: [true, "Product price is required"],
@@ -54,6 +54,7 @@ const orderSchema = new Schema<TOrder>(
         "shipped",
         "returned",
       ],
+      default:"onProcess",
       required: [true, "Order status is required"],
     },
   },

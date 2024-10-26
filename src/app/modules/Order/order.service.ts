@@ -6,13 +6,13 @@ import { Product } from "../Products/product.model";
 import { TOrder } from "./order.interface";
 import { OrderModel } from "./order.model";
 import { CustomerModel } from "../Customer/customer.model";
+import { initiatePayment } from "../../utils/payment/payment.utils";
 
 const orderProduct = async (data: TOrder) => {
   data.status = "onProcess";
-  const { productName, productCategory, productPrice, totalItem } = data;
+  const { productPrice, totalItem,productId,totalPrice } = data;
   const isProductOnStock = await Product.findOne({
-    name: productName,
-    category: productCategory,
+    _id: productId,
     price: productPrice,
   });
   // console.log(isProductOnStock);
@@ -21,28 +21,46 @@ const orderProduct = async (data: TOrder) => {
   }
 
   const { stockQuentity } = isProductOnStock;
-  // console.log("total",totalItem);
+
   if (stockQuentity === undefined || stockQuentity < totalItem) {
     throw new AppError(httpStatus.BAD_REQUEST, "This product is out of stock");
   }
-  // console.log(stockQuentity);
 
-  // console.log(data);
-  const res = await OrderModel.create(data);
-  // console.log('hkjhjk--',res);
+  console.log(data);
 
-  await Product.updateOne(
-    {
-      name: productName,
-      category: productCategory,
-      price: productPrice,
-    },
-    {
-      stockQuentity: stockQuentity - totalItem,
-    }
-  );
+  const transactionId = `TXN-${data?.userId}-${Date.now()}`;
 
-  return res;
+  const paymentData = {
+    transactionId,
+    totalAmount: totalPrice,
+    userId: data?.userId,
+    custormerName: data?.customerName,
+    customerEmail: data?.customerEmail,
+    customerPhone: data?.customerNumber,
+    customerAddress: data?.customerAddress,
+    productId: data?.productId,
+    quantity: data?.totalItem,
+    productPrice:data?.productPrice
+  };
+  // console.log(paymentData);
+
+  const paymentLink = await initiatePayment(paymentData);
+  // console.log("-->", paymentLink);
+
+  // const res = await OrderModel.create(data);
+
+  // await Product.updateOne(
+  //   {
+  //     name: productName,
+  //     category: productCategory,
+  //     price: productPrice,
+  //   },
+  //   {
+  //     stockQuentity: stockQuentity - totalItem,
+  //   }
+  // );
+
+  return paymentLink;
 };
 
 const findOrderFromDB = async (status: string) => {

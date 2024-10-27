@@ -16,5 +16,9 @@ router.put(
   auth(ADMIN_ROLE.Admin, ADMIN_ROLE.SubAdmin),
   orderController.updateOrderStatus
 );
+router.get(
+  "/OrderHistory",
+  orderController.findOrderBySpecificUser
+);
 
 export const orderRoute = router;

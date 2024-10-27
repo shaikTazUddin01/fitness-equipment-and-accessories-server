@@ -17,15 +17,11 @@ const http_status_1 = __importDefault(require("http-status"));
 const AppErrors_1 = require("../../errors/AppErrors");
 const user_model_1 = require("./user.model");
 const createUserInToDB = (data) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log(data);
     const email = data.email;
     const phoneNumber = data.phoneNumber;
-    const isUserExists = yield user_model_1.UserModel.findOne({ email });
+    const isUserExists = yield user_model_1.UserModel.findOne({ email, phoneNumber });
     if (isUserExists) {
         throw new AppErrors_1.AppError(http_status_1.default.FORBIDDEN, 'this email is alreary used,please use another email');
-    }
-    if (isUserExists.phoneNumber == phoneNumber) {
-        throw new AppErrors_1.AppError(http_status_1.default.FORBIDDEN, 'this Phone Number is alreary used,please use another Phone Number');
     }
     data.isDeleted = false;
     data.role = "user";

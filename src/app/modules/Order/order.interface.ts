@@ -10,6 +10,8 @@ export type TOrder = {
   productPrice: number;
   totalItem: number;
   totalPrice: number;
+  transationId:string;
+  paymentMethos:string;
   delivaryFee?: number | null;
   paymentStatus?: "payment complete" | "cash on delivery";
   totalPayment: number | null;

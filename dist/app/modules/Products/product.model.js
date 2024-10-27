@@ -9,5 +9,6 @@ const productSchems = new mongoose_1.Schema({
     detail: { type: String, required: true },
     category: { type: String, required: true },
     stockQuentity: { type: Number },
+    isFeature: { type: String, enum: ["True", "False"], default: "False" }
 }, { timestamps: true });
 exports.Product = (0, mongoose_1.model)("product", productSchems);

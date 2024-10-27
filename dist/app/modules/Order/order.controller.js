@@ -25,6 +25,7 @@ const createOrder = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, vo
 }));
 const findOrder = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { status } = req.query;
+    // console.log(status);
     const result = yield order_service_1.orderService.findOrderFromDB(status);
     res.status(200).json({
         success: true,
@@ -39,8 +40,18 @@ const updateOrderStatus = (0, catchAsync_1.default)((req, res) => __awaiter(void
         data: result,
     });
 }));
+const findOrderBySpecificUser = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { userId } = req.query;
+    // console.log(userId);
+    const result = yield order_service_1.orderService.findOrderBySpecificUser(userId);
+    res.status(200).json({
+        success: true,
+        data: result,
+    });
+}));
 exports.orderController = {
     createOrder,
     findOrder,
     updateOrderStatus,
+    findOrderBySpecificUser
 };

@@ -23,10 +23,9 @@ const orderSchema = new mongoose_1.Schema({
         type: String,
         required: [true, "Customer address is required"],
     },
-    productName: { type: String, required: [true, "Product name is required"] },
-    productCategory: {
-        type: String,
-        required: [true, "Product category is required"],
+    productId: {
+        type: mongoose_1.Schema.Types.ObjectId,
+        ref: 'product',
     },
     productPrice: {
         type: Number,
@@ -54,7 +53,16 @@ const orderSchema = new mongoose_1.Schema({
             "shipped",
             "returned",
         ],
+        default: "onProcess",
         required: [true, "Order status is required"],
+    },
+    transationId: {
+        type: String,
+        required: [true, "transationId is required"],
+    },
+    paymentMethos: {
+        type: String,
+        required: [true, "Method is required"],
     },
 }, { timestamps: true });
 exports.OrderModel = (0, mongoose_1.model)('order', orderSchema);

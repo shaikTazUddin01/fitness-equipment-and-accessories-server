@@ -11,7 +11,7 @@ app.use(
   cors({
     origin: [
       "http://localhost:5173",
-      "https://thunder-fitnesscare.netlify.app",
+      "https://thunder-fitness.vercel.app",
     ],
     credentials: true,
   })

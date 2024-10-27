@@ -55,8 +55,17 @@ const orderSchema = new Schema<TOrder>(
         "returned",
       ],
       default:"onProcess",
+      
       required: [true, "Order status is required"],
     },
+    transationId:{
+      type: String,
+      required: [true, "transationId is required"],
+    },
+  paymentMethos:{
+    type: String,
+    required: [true, "Method is required"],
+  },
   },
   { timestamps: true }
 );

@@ -14,7 +14,7 @@ app.use(express_1.default.json());
 app.use((0, cors_1.default)({
     origin: [
         "http://localhost:5173",
-        "https://thunder-fitnesscare.netlify.app",
+        "https://thunder-fitness.vercel.app",
     ],
     credentials: true,
 }));

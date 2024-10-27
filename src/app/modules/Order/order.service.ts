@@ -79,8 +79,19 @@ const updateOrderStatusInToDB = async (
 
   return res;
 };
+
+
+const findOrderBySpecificUser = async (payload: string) => {
+  // console.log(payload);
+  const res = await OrderModel.find({userId:payload}).populate("userId").populate('productId');
+
+  return res;
+};
+
+
 export const orderService = {
   orderProduct,
   findOrderFromDB,
   updateOrderStatusInToDB,
+  findOrderBySpecificUser
 };

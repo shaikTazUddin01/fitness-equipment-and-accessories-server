@@ -38,11 +38,14 @@ const createProductInToDb = (payload) => __awaiter(void 0, void 0, void 0, funct
 //get product
 const getProductfromDb = (query) => __awaiter(void 0, void 0, void 0, function* () {
     let sortedProduct = "-createdAt";
+    // console.log(query);
     // eslint-disable-next-line prefer-const
-    let selectedCategory = [];
-    if (query === null || query === void 0 ? void 0 : query.selectedCategory) {
-        selectedCategory = query === null || query === void 0 ? void 0 : query.selectedCategory.split(',').map((category) => category.trim());
-    }
+    // let selectedCategory: string[] = [];
+    // if (query?.selectedCategory) {
+    //   selectedCategory = query?.selectedCategory
+    //     .split(",")
+    //     .map((category: string) => category.trim());
+    // }
     if (query === null || query === void 0 ? void 0 : query.sortProductByPrice) {
         const sortByPrice = query === null || query === void 0 ? void 0 : query.sortProductByPrice;
         if (sortByPrice == "dsc") {
@@ -56,10 +59,24 @@ const getProductfromDb = (query) => __awaiter(void 0, void 0, void 0, function* 
     if (query && query.searchProduct) {
         searchProduct.name = { $regex: query.searchProduct, $options: "i" };
     }
-    //caltegory filter
-    if (selectedCategory.length > 0) {
-        searchProduct.category = { $in: selectedCategory };
+    if (query && query.feature) {
+        searchProduct.isFeature = query === null || query === void 0 ? void 0 : query.feature;
     }
+    //caltegory filter
+    if (query === null || query === void 0 ? void 0 : query.selectedCategory) {
+        searchProduct.category = { $in: query === null || query === void 0 ? void 0 : query.selectedCategory };
+    }
+    //price range filter
+    if (query === null || query === void 0 ? void 0 : query.priceRange) {
+        const priceFilter = query.priceRange.split(",").map(Number);
+        if (priceFilter.length === 2) {
+            searchProduct.price = {
+                $gt: priceFilter[0],
+                $lt: priceFilter[1],
+            };
+        }
+    }
+    // console.log(searchProduct);
     // console.log(query);
     const result = yield product_model_1.Product.find(searchProduct).sort(sortedProduct);
     return result;

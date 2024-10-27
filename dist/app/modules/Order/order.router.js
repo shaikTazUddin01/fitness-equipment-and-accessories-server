@@ -12,4 +12,5 @@ const router = express_1.default.Router();
 router.post("/", order_controller_1.orderController.createOrder);
 router.get("/", (0, auth_1.default)(admin_constant_1.ADMIN_ROLE.Admin, admin_constant_1.ADMIN_ROLE.SubAdmin), order_controller_1.orderController.findOrder);
 router.put("/:id", (0, auth_1.default)(admin_constant_1.ADMIN_ROLE.Admin, admin_constant_1.ADMIN_ROLE.SubAdmin), order_controller_1.orderController.updateOrderStatus);
+router.get("/OrderHistory", order_controller_1.orderController.findOrderBySpecificUser);
 exports.orderRoute = router;

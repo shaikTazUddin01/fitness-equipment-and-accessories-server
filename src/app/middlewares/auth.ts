@@ -1,15 +1,18 @@
+/* eslint-disable prefer-const */
 import { NextFunction, Request, Response } from "express";
 import catchAsync from "../utils/catchAsync";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import config from "../config";
-import { TAdminRole } from "../modules/admin/admin.interface";
+
 import { AdminModel } from "../modules/admin/admin.model";
 import { AppError } from "../errors/AppErrors";
 import httpStatus from "http-status";
+import { TAuthRole } from "../modules/admin/admin.interface";
 
-const auth = (...requiredRoles: TAdminRole[]) => {
+const auth = (...requiredRoles: TAuthRole[]) => {
   return catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     const token = req.headers.authorization;
+    // console.log(token);
 
     if (!token) {
       throw new AppError(httpStatus.UNAUTHORIZED, "yor are not authorization");
@@ -28,8 +31,12 @@ const auth = (...requiredRoles: TAdminRole[]) => {
     }
     const role = (decoded as JwtPayload)?.role;
     const user = (decoded as JwtPayload)?.user;
+    let isUserExists;
+
+// console.log(role);
+
     //check user exists or not
-    const isUserExists = await AdminModel.findOne({ email: user });
+    isUserExists = await AdminModel.findOne({ email: user });
 
     // console.log(isUserExists);
 

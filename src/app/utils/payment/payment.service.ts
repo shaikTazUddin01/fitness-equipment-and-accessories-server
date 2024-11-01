@@ -45,7 +45,7 @@ const confirmationServices = async (payload: Record<string, string>) => {
 // console.log(stockQuentity);
 
     const res= await OrderModel.create(paymentInFo);
-    // console.log(res);
+    console.log(res);
 
     await Product.updateOne(
       {

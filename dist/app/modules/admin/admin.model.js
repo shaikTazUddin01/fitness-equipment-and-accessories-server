@@ -20,6 +20,7 @@ const AdminSchema = new mongoose_1.Schema({
     name: { type: String, required: true },
     email: { type: String, required: true, unique: true },
     phoneNumber: { type: Number, required: true, unique: true },
+    image: { type: String, default: "" },
     password: { type: String, required: true },
     age: { type: String, required: true },
     address: { type: String, required: true },

@@ -23,6 +23,7 @@ const UserSchema = new mongoose_1.Schema({
     role: { type: String, enum: ["user"], required: true },
     isDeleted: { type: Boolean, required: true },
     address: { type: String, required: true },
+    image: { type: String, default: "" },
     age: { type: Number, required: true },
     phoneNumber: { type: String, required: true },
     gender: { type: String, enum: ["Male", "Female", "Other"], required: true },

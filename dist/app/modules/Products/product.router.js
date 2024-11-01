@@ -14,6 +14,6 @@ const router = express_1.default.Router();
 router.post("/", product_controller_1.productController.createProduct);
 router.get("/", product_controller_1.productController.getProducts);
 router.get("/:id", product_controller_1.productController.getProductById);
-router.delete("/:id", (0, auth_1.default)(admin_constant_1.ADMIN_ROLE.Admin, admin_constant_1.ADMIN_ROLE.SubAdmin), product_controller_1.productController.deleteProductById);
-router.patch("/:id", (0, auth_1.default)(admin_constant_1.ADMIN_ROLE.Admin, admin_constant_1.ADMIN_ROLE.SubAdmin), product_controller_1.productController.updateProductById);
+router.delete("/:id", (0, auth_1.default)("Admin", "SubAdmin"), product_controller_1.productController.deleteProductById);
+router.patch("/:id", (0, auth_1.default)(admin_constant_1.ROLE.Admin, admin_constant_1.ROLE.SubAdmin), product_controller_1.productController.updateProductById);
 exports.productRoute = router;

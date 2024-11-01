@@ -1,4 +1,5 @@
-import { ADMIN_ROLE } from "./admin.constant";
+import { ROLE } from "./admin.constant";
+
 
 export type TAdmin = {
   name: string;
@@ -9,8 +10,9 @@ export type TAdmin = {
   age: number;
   address: string;
   status: string;
+  image?:string;
   isDeleted: boolean;
   gender: "Male" | "Female" | "Other";
 };
 
-export type TAdminRole = keyof typeof ADMIN_ROLE;
+export type TAuthRole = keyof typeof ROLE;

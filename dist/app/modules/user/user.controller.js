@@ -47,9 +47,19 @@ const deleteSingleUser = (0, catchAsync_1.default)((req, res) => __awaiter(void 
         data: result,
     });
 }));
+const updateUser = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req.params;
+    // console.log(id,req.body);
+    const result = yield user_service_1.UserService.updateUserFromDB(id, req.body);
+    res.status(200).json({
+        success: true,
+        data: result,
+    });
+}));
 exports.UserController = {
     getUser,
     getSingleUser,
     createUser,
-    deleteSingleUser
+    deleteSingleUser,
+    updateUser,
 };

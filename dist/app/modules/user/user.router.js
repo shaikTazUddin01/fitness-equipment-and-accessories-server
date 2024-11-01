@@ -8,4 +8,5 @@ router.post("/create-user", user_controller_1.UserController.createUser);
 router.get("/", user_controller_1.UserController.getUser);
 router.get("/user-info", user_controller_1.UserController.getSingleUser);
 router.delete("/:id", user_controller_1.UserController.deleteSingleUser);
+router.patch("/:id", user_controller_1.UserController.updateUser);
 exports.userRoute = router;

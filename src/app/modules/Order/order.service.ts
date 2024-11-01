@@ -65,7 +65,7 @@ const orderProduct = async (data: TOrder) => {
 
 const findOrderFromDB = async (status: string) => {
   // console.log({status:});
-  const res = await OrderModel.find({ status }).populate("userId");
+  const res = await OrderModel.find({ status }).populate("userId").populate('productId');
 
   return res;
 };

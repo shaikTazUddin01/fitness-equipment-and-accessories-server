@@ -21,6 +21,7 @@ const http_status_1 = __importDefault(require("http-status"));
 const auth = (...requiredRoles) => {
     return (0, catchAsync_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
         const token = req.headers.authorization;
+        // console.log(token);
         if (!token) {
             throw new AppErrors_1.AppError(http_status_1.default.UNAUTHORIZED, "yor are not authorization");
         }
@@ -37,8 +38,10 @@ const auth = (...requiredRoles) => {
         }
         const role = decoded === null || decoded === void 0 ? void 0 : decoded.role;
         const user = decoded === null || decoded === void 0 ? void 0 : decoded.user;
+        let isUserExists;
+        // console.log(role);
         //check user exists or not
-        const isUserExists = yield admin_model_1.AdminModel.findOne({ email: user });
+        isUserExists = yield admin_model_1.AdminModel.findOne({ email: user });
         // console.log(isUserExists);
         if (!isUserExists) {
             throw new AppErrors_1.AppError(http_status_1.default.UNAUTHORIZED, "you are not authorization");

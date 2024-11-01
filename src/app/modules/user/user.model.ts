@@ -10,6 +10,7 @@ const UserSchema = new Schema({
  
   isDeleted: { type: Boolean, required: true },
   address: { type: String, required: true },
+  image: { type: String, default:"" },
   age: { type: Number, required: true },
   phoneNumber: { type: String, required: true },
   gender: { type: String,enum:["Male","Female","Other"], required: true },

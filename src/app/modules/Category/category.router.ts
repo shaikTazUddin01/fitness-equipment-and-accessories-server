@@ -1,9 +1,10 @@
 import express from "express";
 import { CategoryController } from "./category.controller";
 import auth from "../../middlewares/auth";
-import { ADMIN_ROLE } from "../admin/admin.constant";
+import { ROLE } from "../admin/admin.constant";
+
 // import auth from "../../middlewares/auth";
-// import { ADMIN_ROLE } from "../admin/admin.constant";
+// import { ROLE } from "../admin/admin.constant";
 
 const router = express.Router();
 
@@ -15,8 +16,8 @@ router.post(
 router.get("/", CategoryController.getCategorys);
 router.get("/:id", CategoryController.getCategoryById);
 
-router.delete("/:id",auth(ADMIN_ROLE.Admin,ADMIN_ROLE.SubAdmin) ,CategoryController.deleteCategory);
+router.delete("/:id",auth(ROLE.Admin,ROLE.SubAdmin) ,CategoryController.deleteCategory);
 
-router.put("/:id",auth(ADMIN_ROLE.Admin,ADMIN_ROLE.SubAdmin) , CategoryController.updateCategory);
+router.put("/:id",auth(ROLE.Admin,ROLE.SubAdmin) , CategoryController.updateCategory);
 
 export const categoryRoute = router;

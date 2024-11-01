@@ -67,7 +67,7 @@ const orderProduct = (data) => __awaiter(void 0, void 0, void 0, function* () {
 });
 const findOrderFromDB = (status) => __awaiter(void 0, void 0, void 0, function* () {
     // console.log({status:});
-    const res = yield order_model_1.OrderModel.find({ status }).populate("userId");
+    const res = yield order_model_1.OrderModel.find({ status }).populate("userId").populate('productId');
     return res;
 });
 const updateOrderStatusInToDB = (id, status) => __awaiter(void 0, void 0, void 0, function* () {

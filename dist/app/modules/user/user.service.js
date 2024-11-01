@@ -21,7 +21,7 @@ const createUserInToDB = (data) => __awaiter(void 0, void 0, void 0, function* (
     const phoneNumber = data.phoneNumber;
     const isUserExists = yield user_model_1.UserModel.findOne({ email, phoneNumber });
     if (isUserExists) {
-        throw new AppErrors_1.AppError(http_status_1.default.FORBIDDEN, 'this email is alreary used,please use another email');
+        throw new AppErrors_1.AppError(http_status_1.default.FORBIDDEN, "this email is alreary used,please use another email");
     }
     data.isDeleted = false;
     data.role = "user";
@@ -40,9 +40,18 @@ const deleteSingleUserFromDB = (id) => __awaiter(void 0, void 0, void 0, functio
     const res = yield user_model_1.UserModel.findByIdAndDelete(id);
     return res;
 });
+const updateUserFromDB = (id, payload) => __awaiter(void 0, void 0, void 0, function* () {
+    // console.log(id,payload);
+    const data = payload === null || payload === void 0 ? void 0 : payload.userData;
+    // console.log(data);
+    const res = yield user_model_1.UserModel.updateOne({ _id: id }, data, { new: true });
+    // console.log(res);
+    return res;
+});
 exports.UserService = {
     getUserFromDB,
     getSingleUserFromDB,
     createUserInToDB,
-    deleteSingleUserFromDB
+    deleteSingleUserFromDB,
+    updateUserFromDB,
 };

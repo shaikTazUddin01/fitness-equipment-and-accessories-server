@@ -1,3 +1,4 @@
+/* eslint-disable prefer-const */
 import { TProduct } from "./product.interface";
 import { Product } from "./product.model";
 
@@ -36,15 +37,9 @@ const createProductInToDb = async (payload: TProduct) => {
 //get product
 const getProductfromDb = async (query: any) => {
   let sortedProduct = "-createdAt";
-  // console.log(query);
-  // eslint-disable-next-line prefer-const
-  // let selectedCategory: string[] = [];
+  const limit = query.limit ? parseInt(query.limit) : undefined;
+  const skip = query.skip ? parseInt(query.limit) : undefined;
 
-  // if (query?.selectedCategory) {
-  //   selectedCategory = query?.selectedCategory
-  //     .split(",")
-  //     .map((category: string) => category.trim());
-  // }
   if (query?.sortProductByPrice) {
     const sortByPrice = query?.sortProductByPrice;
     if (sortByPrice == "dsc") {
@@ -59,7 +54,7 @@ const getProductfromDb = async (query: any) => {
   if (query && query.searchProduct) {
     searchProduct.name = { $regex: query.searchProduct, $options: "i" };
   }
-  if (query && query.feature ) {
+  if (query && query.feature) {
     searchProduct.isFeature = query?.feature;
   }
   //caltegory filter
@@ -68,7 +63,7 @@ const getProductfromDb = async (query: any) => {
   }
   //price range filter
   if (query?.priceRange) {
-    const priceFilter=query.priceRange.split(",").map(Number)
+    const priceFilter = query.priceRange.split(",").map(Number);
 
     if (priceFilter.length === 2) {
       searchProduct.price = {
@@ -79,9 +74,18 @@ const getProductfromDb = async (query: any) => {
   }
   // console.log(searchProduct);
   // console.log(query);
-  const result = await Product.find(searchProduct).sort(sortedProduct);
+  // Get total count of products that match the search criteria
+  const totalProducts = await Product.countDocuments(searchProduct);
 
-  return result;
+  const result = await Product.find(searchProduct)
+    .skip(skip as number)
+    .limit(limit as number)
+    .sort(sortedProduct);
+
+  return {
+    result,
+    totalProducts,
+  };
 };
 const getProductById = async (id: string) => {
   // console.log(id);

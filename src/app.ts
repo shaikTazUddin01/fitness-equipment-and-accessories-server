@@ -11,7 +11,7 @@ app.use(
   cors({
     origin: [
       "http://localhost:5173",
-      "https://thunder-fitness.vercel.app",
+      "https://epicfit.vercel.app",
     ],
     credentials: true,
   })

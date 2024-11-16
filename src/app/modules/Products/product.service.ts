@@ -38,7 +38,7 @@ const createProductInToDb = async (payload: TProduct) => {
 const getProductfromDb = async (query: any) => {
   let sortedProduct = "-createdAt";
   const limit = query.limit ? parseInt(query.limit) : undefined;
-  const skip = query.skip ? parseInt(query.limit) : undefined;
+  const skip = query.skip ? parseInt(query.skip) : undefined;
 
   if (query?.sortProductByPrice) {
     const sortByPrice = query?.sortProductByPrice;

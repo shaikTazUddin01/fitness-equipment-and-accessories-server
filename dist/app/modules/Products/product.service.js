@@ -38,14 +38,8 @@ const createProductInToDb = (payload) => __awaiter(void 0, void 0, void 0, funct
 //get product
 const getProductfromDb = (query) => __awaiter(void 0, void 0, void 0, function* () {
     let sortedProduct = "-createdAt";
-    // console.log(query);
-    // eslint-disable-next-line prefer-const
-    // let selectedCategory: string[] = [];
-    // if (query?.selectedCategory) {
-    //   selectedCategory = query?.selectedCategory
-    //     .split(",")
-    //     .map((category: string) => category.trim());
-    // }
+    const limit = query.limit ? parseInt(query.limit) : undefined;
+    const skip = query.skip ? parseInt(query.skip) : undefined;
     if (query === null || query === void 0 ? void 0 : query.sortProductByPrice) {
         const sortByPrice = query === null || query === void 0 ? void 0 : query.sortProductByPrice;
         if (sortByPrice == "dsc") {
@@ -78,8 +72,16 @@ const getProductfromDb = (query) => __awaiter(void 0, void 0, void 0, function* 
     }
     // console.log(searchProduct);
     // console.log(query);
-    const result = yield product_model_1.Product.find(searchProduct).sort(sortedProduct);
-    return result;
+    // Get total count of products that match the search criteria
+    const totalProducts = yield product_model_1.Product.countDocuments(searchProduct);
+    const result = yield product_model_1.Product.find(searchProduct)
+        .skip(skip)
+        .limit(limit)
+        .sort(sortedProduct);
+    return {
+        result,
+        totalProducts,
+    };
 });
 const getProductById = (id) => __awaiter(void 0, void 0, void 0, function* () {
     // console.log(id);

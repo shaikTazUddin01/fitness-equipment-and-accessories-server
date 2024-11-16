@@ -71,7 +71,7 @@ const getAllReviewByUser = (userId) => __awaiter(void 0, void 0, void 0, functio
     ]);
     return res;
 });
-const deleteReview = (_b) => __awaiter(void 0, [_b], void 0, function* ({ reviewId, userReviewId }) {
+const deleteReview = (_a) => __awaiter(void 0, [_a], void 0, function* ({ reviewId, userReviewId }) {
     // console.log(userReviewId,reviewId);
     const res = yield review_model_1.Review.updateOne({ _id: reviewId }, { $pull: { review: { _id: userReviewId } } });
     // console.log(res);

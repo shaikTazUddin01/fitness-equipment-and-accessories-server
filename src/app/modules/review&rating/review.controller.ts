@@ -25,6 +25,18 @@ const getAllReview= catchAsync(async (req, res) => {
       data: result,
     });
   });
+  
+const getReviews= catchAsync(async (req, res) => {
+  // console.log(req.body);
+  
+    const result = await reviewService.getReviews();
+  
+    res.status(200).json({
+      success: true,
+      message:"retrieve success",
+      data: result,
+    });
+  });
 const getAllReviewByUser= catchAsync(async (req, res) => {
   // console.log(req.body);
   const {userId}=req.params
@@ -40,7 +52,7 @@ const getAllReviewByUser= catchAsync(async (req, res) => {
 const deleteReview= catchAsync(async (req, res) => {
   // console.log(req.body);
   // const reviewId=req?.body?.reviewId
-  console.log(req.body);
+  // console.log(req.body);
   const {reviewId,userReviewId}=req.body
     const result = await reviewService.deleteReview({reviewId,userReviewId});
   
@@ -57,5 +69,6 @@ const deleteReview= catchAsync(async (req, res) => {
     createReview,
     getAllReview,
     getAllReviewByUser,
-    deleteReview
+    deleteReview,
+    getReviews
   }

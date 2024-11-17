@@ -77,9 +77,15 @@ const deleteReview = (_a) => __awaiter(void 0, [_a], void 0, function* ({ review
     // console.log(res);
     return res;
 });
+const getReviews = () => __awaiter(void 0, void 0, void 0, function* () {
+    const res = yield review_model_1.Review.find().populate("productId")
+        .populate("review.userId");
+    return res;
+});
 exports.reviewService = {
     createReview,
     getAllReview,
     getAllReviewByUser,
-    deleteReview
+    deleteReview,
+    getReviews
 };

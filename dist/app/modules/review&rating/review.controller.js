@@ -34,6 +34,15 @@ const getAllReview = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, v
         data: result,
     });
 }));
+const getReviews = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    // console.log(req.body);
+    const result = yield review_service_1.reviewService.getReviews();
+    res.status(200).json({
+        success: true,
+        message: "retrieve success",
+        data: result,
+    });
+}));
 const getAllReviewByUser = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     // console.log(req.body);
     const { userId } = req.params;
@@ -47,7 +56,7 @@ const getAllReviewByUser = (0, catchAsync_1.default)((req, res) => __awaiter(voi
 const deleteReview = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     // console.log(req.body);
     // const reviewId=req?.body?.reviewId
-    console.log(req.body);
+    // console.log(req.body);
     const { reviewId, userReviewId } = req.body;
     const result = yield review_service_1.reviewService.deleteReview({ reviewId, userReviewId });
     res.status(200).json({
@@ -60,5 +69,6 @@ exports.reviewController = {
     createReview,
     getAllReview,
     getAllReviewByUser,
-    deleteReview
+    deleteReview,
+    getReviews
 };

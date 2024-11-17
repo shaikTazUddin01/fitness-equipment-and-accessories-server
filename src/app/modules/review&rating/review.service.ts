@@ -76,9 +76,17 @@ const deleteReview = async ({reviewId,userReviewId}:{reviewId:string,userReviewI
 };
 
 
+const getReviews=async()=>{
+  const res=await Review.find().populate("productId")
+  .populate("review.userId");
+
+  return res
+}
+
 export const reviewService = {
   createReview,
   getAllReview,
   getAllReviewByUser,
-  deleteReview
+  deleteReview,
+  getReviews
 };

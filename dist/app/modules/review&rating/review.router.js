@@ -5,6 +5,7 @@ const express_1 = require("express");
 const review_controller_1 = require("./review.controller");
 const router = (0, express_1.Router)();
 router.post("/createReview", review_controller_1.reviewController.createReview);
+router.get("/", review_controller_1.reviewController.getReviews);
 router.get("/:productId", review_controller_1.reviewController.getAllReview);
 router.get("/user/:userId", review_controller_1.reviewController.getAllReviewByUser);
 router.delete("/delete", review_controller_1.reviewController.deleteReview);
